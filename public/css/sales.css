@@ -1,0 +1,628 @@
+﻿/* =========================================================
+   sales.css — Sales / Invoices page styles
+   ========================================================= */
+
+/* ── Stats grid ──────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover .stat-icon { transform: scale(1.08); }
+
+.stat-icon--indigo { background: var(--color-primary-light); color: var(--color-primary); }
+.stat-icon--green  { background: #e8faf4; color: #0acf97; }
+.stat-icon--amber  { background: #fff8e0; color: #ffbc00; }
+.stat-icon--red    { background: #fff0f3; color: #fa5c7c; }
+.stat-icon--blue   { background: #eff6ff; color: #3b82f6; }
+.stat-icon--purple { background: #f5f3ff; color: #7c3aed; }
+.stat-icon--orange { background: #fff7ed; color: #ea580c; }
+
+.stat-info { display: flex; flex-direction: column; gap: 2px; }
+
+.stat-value {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: var(--text-2xs);
+    color: var(--color-text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* ── Page Header ─────────────────────────────────────────── */
+/* Tightened — was --space-5/text-3xl/weight 800, pushing the KPI strip
+   and toolbar further down than needed on a data-dense list page. */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.page-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+}
+
+.page-subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* ── Toolbar with pill status filters ────────────────────── */
+/* Flat toolbar, not a card — no background box/border/shadow, just a
+   hairline underneath. */
+.toolbar {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: var(--space-2) 0;
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    box-shadow: none;
+}
+
+.toolbar-left  { display: flex; align-items: center; gap: var(--space-2); flex: 1; flex-wrap: wrap; }
+.toolbar-right { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+
+.toolbar-search { position: relative; display: flex; align-items: center; }
+
+.toolbar-search i {
+    position: absolute;
+    left: 10px;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.toolbar-search input {
+    padding: 0.42rem 0.75rem 0.42rem 2.1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    width: 210px;
+    transition: all 0.22s ease;
+    outline: none;
+    font-family: var(--font-main);
+    min-height: 34px;
+}
+
+.toolbar-search input::placeholder { color: var(--color-text-light); }
+
+.toolbar-search input:focus {
+    width: 250px;
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(114, 124, 245, 0.1);
+}
+
+/* Legacy search-icon class */
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.toolbar-select {
+    padding: 0.38rem 1.9rem 0.38rem 0.75rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    transition: all 0.18s;
+    min-height: 34px;
+    font-family: var(--font-main);
+}
+
+.toolbar-select:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 3px rgba(114, 124, 245, 0.1);
+}
+
+/* ── Card / Table ────────────────────────────────────────── */
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+table { width: 100%; border-collapse: collapse; }
+
+th {
+    background: var(--color-surface-2);
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--color-surface-2); }
+
+/* Invoice number cell */
+.invoice-number {
+    font-weight: 800;
+    color: var(--color-primary);
+    font-size: var(--text-sm);
+    letter-spacing: 0.01em;
+    font-family: 'Courier New', monospace;
+}
+
+/* Customer name */
+.customer-name {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Sales amount */
+.sales-total {
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+}
+
+/* ── Action buttons ──────────────────────────────────────── */
+.action-buttons { display: flex; gap: 4px; align-items: center; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+    .toolbar { flex-direction: column; align-items: stretch; gap: var(--space-2); }
+    .toolbar-search { width: 100%; }
+    .toolbar-search input { width: 100% !important; }
+    .toolbar-select { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .stat-value { font-size: var(--text-xl); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INVOICE HTML VIEW  (sales/{sale}/invoice)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Print/Back bar ── */
+.print-btn-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 24px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: var(--shadow-xs);
+}
+
+/* ── Outer wrapper ── */
+.invoice-wrapper {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 48px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* ── Header: logo + invoice number ── */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 28px;
+}
+
+.invoice-logo h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px;
+    letter-spacing: -0.02em;
+}
+
+.invoice-logo p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 2px 0;
+}
+
+.invoice-number-block {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.invoice-number-block h2 {
+    font-size: 28px;
+    font-weight: 900;
+    color: #4f46e5;
+    letter-spacing: 0.06em;
+    margin: 0 0 6px;
+}
+
+.invoice-number-block p {
+    font-size: 13px;
+    color: #475569;
+    margin: 3px 0;
+}
+
+/* ── Bill To / From parties ── */
+.invoice-parties {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.invoice-party {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+}
+
+.invoice-party h4 {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin: 0 0 8px;
+}
+
+.invoice-party p {
+    font-size: 13px;
+    color: #334155;
+    margin: 3px 0;
+}
+
+.invoice-party p strong {
+    font-size: 15px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* ── Items table ── */
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: 13.5px;
+}
+
+.invoice-table thead tr {
+    background: #4f46e5;
+}
+
+.invoice-table thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    border: none;
+}
+
+.invoice-table thead th:last-child { text-align: right; }
+.invoice-table thead th:nth-child(3),
+.invoice-table thead th:nth-child(4),
+.invoice-table thead th:nth-child(5) { text-align: center; }
+
+.invoice-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+}
+
+.invoice-table tbody tr:hover { background: #f8fafc; }
+
+.invoice-table tbody td {
+    padding: 12px 14px;
+    color: #334155;
+    border: none;
+    vertical-align: middle;
+}
+
+.invoice-table tbody td:last-child { text-align: right; font-weight: 600; }
+.invoice-table tbody td:nth-child(3),
+.invoice-table tbody td:nth-child(4),
+.invoice-table tbody td:nth-child(5) { text-align: center; }
+
+/* ── Totals block ── */
+.invoice-totals {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 28px;
+}
+
+.invoice-totals-box {
+    width: 320px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.invoice-totals-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    font-size: 13.5px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.invoice-totals-row:last-child { border-bottom: none; }
+
+.invoice-totals-row.grand-total {
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 18px;
+}
+
+/* ── Footer ── */
+.invoice-footer {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 12.5px;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 1.7;
+}
+
+/* ── Print overrides ── */
+@media print {
+    .print-btn-bar { display: none !important; }
+    body { background: #fff !important; }
+    .invoice-wrapper {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+    }
+    .invoice-table thead tr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .invoice-totals-row.grand-total { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── Responsive invoice ── */
+@media (max-width: 700px) {
+    .invoice-wrapper { padding: 20px 16px; margin: 0; border-radius: 0; border: none; }
+    .invoice-header { flex-direction: column; gap: 16px; }
+    .invoice-number-block { text-align: left; }
+    .invoice-parties { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .invoice-totals { justify-content: stretch; }
+    .invoice-totals-box { width: 100%; }
+}
+
+/* ── Barcode scan bar ── */
+.barcode-scan-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: #f0f7ff;
+    border: 2px solid #93c5fd;
+    border-radius: var(--radius-md);
+}
+
+.barcode-scan-label {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.barcode-scan-input-wrap {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.barcode-scan-input {
+    width: 100%;
+    padding: 0.6rem 140px 0.6rem 0.85rem;
+    border: 1.5px solid #93c5fd;
+    border-radius: var(--radius);
+    font-size: var(--text-base);
+    font-family: var(--font-main);
+    background: #fff;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.barcode-scan-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
+}
+
+.barcode-scan-input.scan-success {
+    border-color: var(--color-success);
+    background: var(--color-success-light);
+}
+
+.barcode-scan-input.scan-error {
+    border-color: var(--color-danger);
+    background: var(--color-danger-light);
+}
+
+.barcode-feedback {
+    position: absolute;
+    right: 10px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.barcode-feedback.success { color: var(--color-success); }
+.barcode-feedback.error   { color: var(--color-danger); }
+
+/* ── Record Payment page ─────────────────────────────────── */
+.payment-summary-block {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-3);
+}
+.payment-summary-label { color: var(--color-text-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+.payment-summary-name  { font-weight: 700; font-size: var(--text-base); margin-top: 4px; }
+.payment-summary-phone { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+
+.payment-option-subtitle { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+
+/* ── Payment method tabs — one method's fields visible at a time so the
+   page fits a single screen instead of stacking every method's full form
+   (was the cause of the page overflowing past one viewport height). ──── */
+.payment-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius, 10px);
+    padding: 4px;
+    margin-bottom: var(--space-4);
+}
+.payment-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 6px;
+    border: none;
+    border-radius: 7px;
+    background: none;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: background .12s, color .12s;
+}
+.payment-tab-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.payment-tab-btn:hover { color: var(--color-text); }
+.payment-tab-btn.active {
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-xs);
+}
+.payment-tab-panel { animation: paymentTabIn .12s ease; }
+@keyframes paymentTabIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Compact this page specifically so the sale summary + chosen payment
+   method's fields fit one screen without scrolling. ────────────────── */
+.payment-page .form-card { padding: var(--space-4) 0; }
+.payment-page .sale-layout { gap: var(--space-4); }
+.payment-page .summary-panel { padding: var(--space-4); }
+
+.btn--mpesa   { background: #1a9d4a; border-color: #1a9d4a; color: #fff; }
+.btn--mpesa:hover   { background: #158040; border-color: #158040; }
+.btn--pesapal { background: #e63329; border-color: #e63329; color: #fff; }
+.btn--pesapal:hover { background: #c92920; border-color: #c92920; }
+
+.payment-paid-state {
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+}
+.payment-paid-state svg { width: 48px; height: 48px; color: var(--color-success); }
+.payment-paid-state h3 { color: var(--color-success); margin: var(--space-4) 0; }
+
+@media (max-width: 480px) {
+    .barcode-scan-bar {
+        flex-wrap: wrap;
+        padding: var(--space-2) var(--space-3);
+    }
+    .barcode-scan-input-wrap { order: 2; width: 100%; flex: 0 0 100%; }
+    .barcode-scan-input { padding: 0.55rem 0.75rem; font-size: var(--text-sm); }
+    #barcodeCameraBtn { order: 3; width: 100%; justify-content: center; }
+    .barcode-feedback { position: static; margin-left: auto; font-size: var(--text-2xs); }
+    .barcode-scan-input-wrap .barcode-feedback { position: absolute; right: 8px; }
+}

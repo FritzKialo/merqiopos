@@ -1,0 +1,420 @@
+/* ── Org Dashboard styles ──────────────────────────────────── */
+
+/* Desktop horizontal-scroll fallback for the Payroll summary table —
+   matches the identical .table-wrapper already defined per-page in
+   customers.css/expenses.css/inventory.css/sales.css. Needed here too so
+   responsive.css's mobile neutralization (.table-wrapper { overflow:
+   visible }) has a real overflow-x:auto to neutralize; a bare inline
+   style="overflow-x:auto" on the wrapper div isn't one of the classes
+   that rule targets, so it stayed on unmatched at mobile and let the
+   stacked table grow past the viewport instead of being constrained to
+   it (see the fix note next to the wrapper in org/dashboard.blade.php). */
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ── KPI grid ─────────────────────────────────────────────────
+   Matches the main dashboard's modernized .kpi-grid: a single thin
+   bordered container with hairline dividers between stats, rather than
+   loose floating text or individually boxed cards. */
+.org-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 14px);
+    overflow: hidden;
+    background: var(--color-surface);
+}
+
+.org-kpi-card {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: 16px 18px;
+}
+.org-kpi-grid .org-kpi-card:last-child { border-right: none; }
+
+.org-kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+}
+
+.org-kpi-value {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+    margin-bottom: 5px;
+    font-variant-numeric: tabular-nums;
+}
+
+.org-kpi-sub {
+    font-size: 11.5px;
+    color: var(--color-text-muted);
+}
+
+/* ── Section header ──────────────────────────────────────── */
+.org-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.org-section-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.org-section-meta {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+/* ── Org panel (flat section, not a card) ─────────────────── */
+.org-panel {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    margin-bottom: 28px;
+    box-shadow: none;
+}
+
+.org-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.org-panel-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.org-panel-meta {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.org-panel-body { padding: 14px 0; }
+
+/* ── Store cards grid ────────────────────────────────────── */
+.store-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+/* A thin bordered rectangle — still needs SOME boundary since these are
+   distinct store entities in a grid, but kept quiet: a little corner
+   rounding for a softer feel and a subtle lift on hover instead of just
+   a darker border, without going back to a heavy shadowed "tile" look. */
+.store-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 10px);
+    box-shadow: none;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.store-card:hover { border-color: var(--color-text-light); box-shadow: var(--shadow-xs); }
+
+.store-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.store-card-name-wrap { flex: 1; min-width: 0; }
+
+.store-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.store-type-badge {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+.store-card-status { flex-shrink: 0; }
+
+.store-card-stats {
+    display: flex;
+    gap: 0;
+}
+
+.store-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.store-stat-label {
+    font-size: 10.5px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.store-stat-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.store-card-sparkline {
+    height: 36px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 8px;
+}
+
+.store-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* ── Tables — clean row list, not a spreadsheet grid ──────────
+   Matches the main dashboard's tables: hairline row dividers only,
+   no full cell gridlines. */
+.org-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.org-panel table th {
+    padding: 9px 4px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--color-text-muted);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+    white-space: nowrap;
+}
+
+.org-panel table td {
+    padding: 11px 4px;
+    color: var(--color-text);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.org-panel table tbody tr:hover td { background: var(--color-surface-2); }
+
+.org-panel table tfoot td {
+    padding: 11px 4px;
+    border: none;
+    border-top: 1px solid var(--color-border-2);
+    font-weight: 700;
+    background: transparent;
+}
+
+/* ── YTD payroll bars ────────────────────────────────────── */
+.org-ytd-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 12.5px;
+}
+
+.org-ytd-bar-row:last-child { border-bottom: none; }
+
+.org-ytd-bar-label {
+    width: 80px;
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    text-align: right;
+}
+
+.org-ytd-bar-track {
+    flex: 1;
+    height: 14px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.org-ytd-bar-fill {
+    height: 100%;
+    background: #d97706;
+    border-radius: 3px;
+    transition: width .3s;
+}
+
+.org-ytd-bar-amount {
+    width: 90px;
+    flex-shrink: 0;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* ── Subscription card ───────────────────────────────────── */
+.org-sub-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px;
+}
+
+.org-sub-plan {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 6px;
+}
+
+.org-trial-tag {
+    display: inline-flex;
+    align-items: center;
+    background: #fef9c3;
+    border: 1px solid #fde68a;
+    color: #a16207;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+/* Badge color/success/danger/warning/secondary aliases used to be
+   redefined here too — org.css loads on EVERY page (it's in the fixed
+   <link> list in layouts/app.blade.php, after components.css), so
+   this was the actual site-wide source of these colors the whole
+   time, unbeknownst to whoever last touched components.css's own
+   version. Consolidated into components.css's canonical definitions
+   (now updated to match these exact values) instead of leaving two
+   copies to drift apart. */
+
+/* ── Welcome bar ─────────────────────────────────────────── */
+.org-welcome-bar {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 2px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.org-welcome-bar h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 3px;
+}
+
+.org-welcome-bar p {
+    font-size: 12.5px;
+    color: var(--color-text-muted);
+}
+
+.trial-badge {
+    background: #f5f5f5;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    color: var(--color-text);
+}
+
+.trial-badge a {
+    font-weight: 700;
+    background: var(--color-primary, var(--color-text));
+    color: var(--color-surface, #fff);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .org-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .store-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .org-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .store-cards-grid { grid-template-columns: minmax(0, 1fr); }
+    /* Removed: `.org-panel table { min-width: 540px; }`. That made sense
+       for a real horizontally-scrolling table, but responsive.css's global
+       table→card-stack rule already converts every table (this one
+       included) to stacked block rows at this same breakpoint — forcing a
+       540px min-width on a table that's supposed to now fit a ~350px
+       phone screen is exactly what pushed every value in the Payroll
+       summary table off-screen to the right (see the .table-wrapper fix
+       above and the note in org/dashboard.blade.php). */
+
+    /* ── Mobile: real per-record cards for the KPI stats — same reasoning
+       and pattern as the main dashboard's .kpi-grid fix (dashboard.css):
+       a single shared-border box with hairline dividers read as one
+       undifferentiated block of numbers on a narrow 2-column phone
+       layout. Individually bordered, rounded, gapped cards make each
+       stat unambiguously its own thing. */
+    .org-kpi-grid {
+        gap: 12px;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        overflow: visible;
+    }
+    .org-kpi-card,
+    .org-kpi-grid .org-kpi-card:last-child {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md, 10px);
+        background: var(--color-surface);
+    }
+}
+
+@media (max-width: 480px) {
+    .org-kpi-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}

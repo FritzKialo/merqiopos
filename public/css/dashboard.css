@@ -1,0 +1,667 @@
+/* =========================================================
+   dashboard.css — Professional dashboard styling
+   Token-based so it adapts to light/dark themes.
+   ========================================================= */
+
+/* Dashboard-only override of the app-wide .page top padding (defined in
+   sidebar.css, used by every internal page) — the dashboard's own
+   welcome-bar already reads as the page's visual "top", so the standard
+   20px on top of it read as a large dead gap. Scoped to this file (which
+   only loads on dashboard views) rather than changing .page globally. */
+.page { padding-top: 10px; }
+
+/* Dashboard-only font override — the app-wide --font-heading ('Outfit') was
+   too distinctive/branded-looking for this page's numbers and titles; swap
+   to a plain OS-native sans stack for a more neutral feel. Scoped here
+   (not touching --font-heading itself) so no other page is affected. */
+.welcome-bar h1, .kpi-value, .dash-panel-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ── Low Stock Banner ────────────────────────────────────────────────────
+   Floats over the top of the page instead of sitting in normal flow — the
+   wrapper reserves zero height, so showing/dismissing this never shifts
+   the welcome bar (or anything else) up or down. */
+.low-stock-banner-wrap {
+    position: relative;
+    height: 0;
+    overflow: visible;
+}
+.low-stock-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: var(--radius-lg, 14px);
+    font-size: 13.5px;
+    color: #92400e;
+    box-shadow: 0 8px 24px -6px rgba(0,0,0,0.18);
+    animation: slideInDown .25s ease;
+}
+@keyframes slideInDown {
+    from { transform: translateY(-6px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+.low-stock-banner a { color: #b45309; font-weight: 600; text-decoration: underline; margin-left: 8px; }
+.low-stock-banner-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #92400e;
+    opacity: 0.6;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 4px;
+    flex-shrink: 0;
+    transition: opacity .12s;
+}
+.low-stock-banner-close:hover { opacity: 1; }
+
+/* ── Welcome bar ─────────────────────────────────────────── */
+/* Flat by design — no card box around it. The dashboard was reading as a
+   stack of disconnected shadowed/rounded tiles rather than one page; this
+   sits directly on the page background and a single hairline underneath
+   is the only separator from what follows. */
+.welcome-bar {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 2px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+}
+.welcome-bar h1 {
+    font-family: var(--font-heading);
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+.welcome-bar p {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+.trial-badge {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 9px 9px 9px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    color: var(--color-text);
+}
+.trial-badge a {
+    font-weight: 600;
+    color: var(--color-surface, #fff);
+    text-decoration: none;
+    background: var(--color-primary, #0a0a0a);
+    padding: 5px 13px;
+    border-radius: 7px;
+    font-size: 12px;
+}
+
+/* ── Quick Actions ───────────────────────────────────────── */
+.quick-actions-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.quick-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    font-family: var(--font-main);
+    transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    cursor: pointer;
+    background: none;
+}
+.quick-action-primary {
+    background: var(--color-primary, #0a0a0a);
+    /* surface inverts with the theme, so the label always contrasts the button */
+    color: var(--color-surface, #fff);
+    border-color: var(--color-primary, #0a0a0a);
+    /* A shadow tinted with the button's own color reads as considered/
+       branded — a generic black shadow under a colored button looks like
+       the color was patched on afterward rather than designed in. */
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+.quick-action-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+.quick-action-secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border-2);
+    box-shadow: var(--shadow-xs);
+}
+.quick-action-secondary:hover {
+    background: var(--color-surface-2);
+    border-color: var(--color-text-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── Quick Links ──────────────────────────────────────────────
+   Plain text links now, not colored tile buttons — the solid-color
+   blocks were flagged in the user's own annotated screenshot as the
+   same kind of visual "box" being removed everywhere else. Just an
+   icon + label, no fill, no border, no shadow. */
+.quick-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-bottom: 18px;
+}
+.quick-link-tile {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 0;
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 13.5px;
+    font-family: var(--font-main);
+    transition: color .14s ease;
+}
+.quick-link-tile:hover { color: var(--color-primary); text-decoration: underline; }
+.quick-link-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; flex-shrink: 0;
+    color: var(--color-text-muted);
+}
+.quick-link-icon svg { width: 16px; height: 16px; }
+.quick-link-tile:hover .quick-link-icon { color: var(--color-primary); }
+.quick-link-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── KPI cards ───────────────────────────────────────────────
+   Modernized: still no per-card box/shadow (kept per earlier feedback —
+   colored underlines and icon badges were both explicitly flagged as
+   clutter and removed). What changes here is refinement instead of
+   decoration — thin thumb-width dividers between cards to give the row
+   quiet structure, lighter/tighter number typography, and a plainer
+   (no pill background) trend indicator. */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 14px);
+    overflow: hidden;
+    background: var(--color-surface);
+}
+.kpi-card {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+}
+/* Drop the trailing divider on the last card in the row — avoids a stray
+   line hugging the grid's own outer edge (auto-fit means we can't target
+   "last row" reliably at arbitrary widths, so bottom dividers are left
+   as-is; they sit flush against the grid's own bottom border either way). */
+.kpi-grid .kpi-card:last-child { border-right: none; }
+.kpi-body { display: flex; flex-direction: column; min-width: 0; width: 100%; }
+.kpi-value {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.kpi-value.is-negative { color: var(--color-danger, #b91c1c); }
+.kpi-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    order: -1;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 2px;
+}
+.kpi-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    width: fit-content;
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-top: 2px;
+    letter-spacing: -0.01em;
+    padding: 0;
+}
+.kpi-trend svg { flex-shrink: 0; }
+.kpi-trend-up   { color: #15803d; }
+.kpi-trend-down { color: #b91c1c; }
+
+/* Functional color utilities (.text-success/-danger/-warn/-muted) moved
+   to components.css — this file only loads on the 2 dashboard views,
+   so they were unstyled everywhere else they got used. See
+   components.css for the real definitions now. */
+
+/* ── Dash Panel (flat section, not a card) ───────────────────
+   No background/border/radius/shadow box any more — each section is just
+   a heading with a hairline underneath, sitting directly on the page.
+   Internal tables/lists still use their own row dividers for structure,
+   so nothing here relies on an outer card to read as organized. */
+.dash-panel {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    margin-bottom: 28px;
+    box-shadow: none;
+}
+.dash-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+}
+.dash-panel-title {
+    font-family: var(--font-heading);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+.dash-panel-meta { font-size: 12px; color: var(--color-text-muted); font-weight: 500; }
+.dash-panel-body { padding: 14px 0; }
+
+/* ── Chart section ───────────────────────────────────────── */
+.chart-toggle-group {
+    display: flex;
+    gap: 3px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    padding: 3px;
+}
+.chart-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: all .12s;
+    font-family: var(--font-main);
+}
+.chart-toggle-btn:hover { color: var(--color-text); }
+.chart-toggle-btn.active { background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-xs); font-weight: 700; }
+.chart-legend {
+    display: flex;
+    gap: 20px;
+    padding: 12px 18px 0;
+    font-size: 12.5px;
+    flex-wrap: wrap;
+}
+.chart-legend-item { display: flex; align-items: center; gap: 6px; color: var(--color-text-muted); }
+.chart-legend-dot  { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.chart-wrapper { padding: 16px 18px 18px; height: 220px; position: relative; }
+
+/* ── Chart controls (range picker, compare toggle, type/export groups) ──── */
+.dash-panel-header-wrap { flex-wrap: wrap; gap: 10px 16px; row-gap: 10px; }
+.chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+}
+.chart-range-group, .chart-type-group, .chart-export-group {
+    display: flex;
+    gap: 3px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    padding: 3px;
+}
+.chart-custom-range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 18px 12px;
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+.chart-custom-range input[type="date"] {
+    padding: 5px 9px;
+    font-size: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-main);
+}
+.chart-compare-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+.chart-compare-toggle input { cursor: pointer; accent-color: var(--color-primary, #0a0a0a); }
+.chart-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    opacity: .85;
+    font-size: 12.5px;
+    color: var(--color-text-muted);
+    border-radius: var(--radius-md, 10px);
+}
+.chart-hint {
+    padding: 0 18px 14px;
+    margin: 0;
+    font-size: 11.5px;
+    color: var(--color-text-muted);
+}
+
+/* ── Insights & Recommendations panel ────────────────────────────────
+   Lighter pass: plain surface (not tinted) background, a thinner 2px
+   accent, and the icon shown as a bare colored glyph rather than sitting
+   in its own bordered box — one less nested "box within a box" layer,
+   which is what "thin" mostly comes down to here. */
+.insights-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+    align-items: stretch;
+}
+.insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    border-left: 2px solid var(--color-border-2);
+    background: var(--color-surface);
+}
+.insight-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+.insight-icon svg { width: 16px; height: 16px; }
+.insight-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.insight-title { font-size: 13px; font-weight: 600; color: var(--color-text); }
+.insight-text  { font-size: 12px; color: var(--color-text-muted); line-height: 1.45; }
+.insight-action {
+    flex-shrink: 0;
+    align-self: flex-start;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid var(--color-border-2);
+    color: var(--color-text);
+    transition: background .12s, border-color .12s;
+}
+.insight-action:hover { background: var(--color-surface-2); border-color: var(--color-text-light); }
+
+.insight-success { border-left-color: var(--color-success, #15803d); }
+.insight-success .insight-icon { color: var(--color-success, #15803d); }
+.insight-warning { border-left-color: #b45309; }
+.insight-warning .insight-icon { color: #b45309; }
+.insight-danger  { border-left-color: var(--color-danger, #b91c1c); }
+.insight-danger  .insight-icon { color: var(--color-danger, #b91c1c); }
+.insight-info    { border-left-color: var(--color-text); }
+.insight-info    .insight-icon { color: var(--color-text); }
+
+@media (max-width: 560px) {
+    .insights-list { grid-template-columns: 1fr; }
+    .insight-item { flex-wrap: wrap; }
+    .insight-action { margin-left: 36px; }
+}
+
+/* ── Live KPI update pulse ────────────────────────────────────────────── */
+.kpi-value.kpi-pulse { animation: kpiPulse 1s ease; }
+@keyframes kpiPulse {
+    0%   { color: var(--color-primary, #0a0a0a); transform: scale(1.04); display: inline-block; }
+    100% { color: var(--color-text); transform: scale(1); }
+}
+
+/* ── Two-col grid ────────────────────────────────────────── */
+.dash-two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 18px;
+    margin-bottom: 0;
+    align-items: start;
+}
+
+/* ── Three-col grid (category / payment / peak-hours charts) ── */
+.dash-three-col {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 0;
+    align-items: start;
+}
+.dash-three-col > .dash-panel { min-width: 0; }
+.dash-three-col .chart-wrapper canvas { max-width: 100%; }
+
+/* ── Tables — clean row list, not a spreadsheet grid ──────────
+   Dashboard-scoped only (via .dash-panel) — swapped from the app-wide
+   Excel-style full-cell-gridlines look to a lighter hairline-per-row
+   style, which reads as data at a glance rather than a worksheet.
+   Other pages keep the grid look; this file only loads on the 2
+   dashboard views so nothing else is affected. */
+.dash-panel table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.dash-panel table th {
+    padding: 9px 4px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--color-text-muted);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+    white-space: nowrap;
+}
+.dash-panel table td {
+    padding: 11px 4px;
+    color: var(--color-text);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+.dash-panel table tbody tr:last-child td { border-bottom: none; }
+.dash-panel table tbody tr { transition: background .1s; }
+.dash-panel table tbody tr:hover td { background: var(--color-surface-2); }
+.dash-panel table a { color: var(--color-text); }
+
+/* ── Mobile: real per-record cards, not just a heavier divider ──────────
+   The shared app-wide fix (responsive.css: solid record divider vs dashed
+   field divider) was a step up from every field/record boundary looking
+   identical, but still wasn't a strong enough visual break for a 5+ field
+   table like Recent Sales — still read as "a list with slightly different
+   lines" rather than "5 distinct sale cards." Giving each record its own
+   bordered, rounded, spaced-apart box is the actual standard mobile-list
+   pattern most apps use, and reads unambiguously as separate records at a
+   glance. Scoped to .dash-panel same as the desktop table styles above —
+   other pages keep the shared app-wide treatment from responsive.css. */
+@media (max-width: 768px) {
+    .dash-panel table tbody tr {
+        display: block;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 2px 14px;
+        margin-bottom: 10px;
+        box-shadow: var(--shadow-sm);
+    }
+    .dash-panel table tbody tr:last-child { margin-bottom: 0; }
+    .dash-panel table tbody tr:hover { background: var(--color-surface); }
+    .dash-panel table td {
+        border-bottom: 1px dashed var(--color-border) !important;
+    }
+    .dash-panel table td:last-child { border-bottom: none !important; }
+}
+
+/* ── Quick stats list ────────────────────────────────────── */
+.quick-stats-list { list-style: none; margin: 0; padding: 0; }
+.quick-stats-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 13.5px;
+}
+.quick-stats-list li:last-child { border-bottom: none; }
+.quick-stats-list a { color: inherit; text-decoration: none; display: flex; align-items: baseline; justify-content: space-between; width: 100%; transition: padding .12s; }
+.quick-stats-list a:hover { padding-left: 3px; }
+.quick-stats-list .qs-label { color: var(--color-text-muted); }
+.quick-stats-list .qs-value { font-weight: 700; color: var(--color-text); }
+
+/* ── Alert list ──────────────────────────────────────────── */
+.alert-list { list-style: none; margin: 0; padding: 0; }
+.alert-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 13.5px;
+}
+.alert-list li:last-child { border-bottom: none; }
+.alert-list .al-text { color: var(--color-text); font-weight: 600; }
+.alert-list .al-sub  { color: var(--color-text-muted); font-size: 12px; display: block; margin-top: 2px; }
+.alert-list a {
+    text-decoration: none;
+    color: var(--color-surface, #fff);
+    background: var(--color-primary, #0a0a0a);
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 12px;
+    padding: 4px 11px;
+    border-radius: 7px;
+    flex-shrink: 0;
+}
+.alert-list a:hover { opacity: .85; }
+
+/* ── Cash flow label ─────────────────────────────────────── */
+.cashflow-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    padding: 10px 0 8px;
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+/* Badge color classes were redefined here too (near-identical values,
+   slightly different border-radius) — removed, components.css's
+   self-contained versions now cover this without a duplicate to
+   drift out of sync. */
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .dash-two-col { grid-template-columns: minmax(0, 1fr); }
+    .dash-three-col { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+    .dash-three-col { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 768px) {
+    /* Desktop's .kpi-grid is one shared bordered box with hairline
+       dividers between metrics — reads fine with 5 cards in a row, but
+       squeezed into a narrow 2-column phone layout it just looked like
+       an undifferentiated grid of numbers with no clear boundary between
+       "Today's revenue" and "Today's expenses". Individually bordered,
+       rounded, gapped cards (matching the org dashboard's kpi reference)
+       make each stat unambiguously its own thing at a glance. */
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        overflow: visible;
+    }
+    .welcome-bar { padding: 16px; }
+    .kpi-card,
+    .kpi-grid .kpi-card:last-child {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md, 10px);
+        background: var(--color-surface);
+        padding: 14px 16px;
+        gap: 6px;
+    }
+    .kpi-value { font-size: 18px; }
+}
+@media (max-width: 420px) {
+    /* Stays 2-column rather than collapsing to 1 — each card is now
+       compact and self-contained enough (see above) to hold up at phone
+       width without needing the full row to itself. */
+    .kpi-card { padding: 12px 14px; }
+    .kpi-value { font-size: 16px; }
+}

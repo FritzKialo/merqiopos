@@ -1,0 +1,189 @@
+/* =========================================================
+   notifications.css — topbar bell dropdown
+   Was a dedicated /notifications page; replaced with a compact
+   dropdown anchored under the bell (see layouts/app.blade.php),
+   matching the visual language already used by the user-menu
+   dropdown (.app-nav-user-dropdown in sidebar.css). Token-based
+   so it adapts to light/dark themes.
+   ========================================================= */
+
+.notif-dropdown-wrap { position: relative; }
+
+.notif-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: -8px;
+    width: 380px;
+    max-width: calc(100vw - 24px);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 300;
+    display: none;
+    overflow: hidden;
+}
+.notif-dropdown-panel.open { display: block; }
+
+.notif-dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+.notif-mark-all-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-primary);
+    padding: 0;
+    font-family: var(--font-main);
+}
+.notif-mark-all-btn:hover { text-decoration: underline; }
+
+.notif-dropdown-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 4px 10px;
+}
+
+.notif-dropdown-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 34px 20px;
+    color: var(--color-text-muted);
+}
+.notif-dropdown-empty svg { width: 34px; height: 34px; opacity: 0.35; margin-bottom: 10px; }
+.notif-dropdown-empty p { font-size: 13px; margin: 0; }
+
+/* ── Row list (shared by every notification entry) ──────────────────── */
+.notif-list { display: flex; flex-direction: column; }
+.notif-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--color-border);
+    border-left: 3px solid transparent;
+    transition: background .12s;
+}
+.notif-row:last-child { border-bottom: none; }
+.notif-row.is-unread {
+    background: var(--color-surface-2);
+    border-left-color: var(--notif-accent, var(--color-text-muted));
+    padding-left: 9px;
+    border-radius: 0 var(--radius-sm, 6px) var(--radius-sm, 6px) 0;
+}
+.notif-row.is-read { opacity: 0.7; }
+.notif-row:hover { background: var(--color-surface-2); }
+
+/* Accent tokens per semantic type — set once per row via --notif-accent so
+   the icon circle and the unread left-border reuse the same color. */
+.notif-success { --notif-accent: var(--color-success, #1a7a4a); }
+.notif-danger  { --notif-accent: var(--color-danger, #b91c1c); }
+.notif-warning { --notif-accent: #b45309; }
+.notif-info    { --notif-accent: var(--color-text-muted); }
+
+.notif-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--notif-accent, var(--color-text-muted));
+    margin-top: 1px;
+}
+.notif-icon svg { width: 16px; height: 16px; }
+
+.notif-body { flex: 1; min-width: 0; }
+.notif-title-row { display: flex; align-items: center; gap: 7px; }
+.notif-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--notif-accent, var(--color-primary));
+    flex-shrink: 0;
+}
+.notif-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.notif-row.is-read .notif-title { font-weight: 500; }
+.notif-message {
+    font-size: 12.5px;
+    color: var(--color-text-muted);
+    margin-top: 3px;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.notif-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+.notif-time { font-size: 11px; color: var(--color-text-muted); }
+.notif-view-link {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+.notif-view-link:hover { text-decoration: underline; }
+
+.notif-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.notif-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
+}
+.notif-action-btn svg { width: 12px; height: 12px; }
+.notif-action-btn:hover { background: var(--color-surface-3, var(--color-surface-2)); color: var(--color-text); }
+.notif-action-danger:hover { color: var(--color-danger, #b91c1c); border-color: var(--color-danger, #b91c1c); }
+
+/* ── Mobile — anchoring under a fixed-width chip stops working well
+   below ~480px (the panel would either overflow the viewport or need to
+   be so narrow it's unreadable); pin it under the topbar full-width
+   instead, same pattern most apps use for a phone notification panel. */
+@media (max-width: 480px) {
+    .notif-dropdown-panel {
+        position: fixed;
+        top: 58px;
+        left: 8px;
+        right: 8px;
+        width: auto;
+        max-width: none;
+    }
+}

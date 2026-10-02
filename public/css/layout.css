@@ -1,0 +1,48 @@
+/* =========================================================
+   layout.css — Misc layout helpers not owned by sidebar.css.
+
+   This file used to hold an entire second app-shell design (a
+   horizontal top-nav layout: .app-topnav / .app-nav-tabs / a
+   separate .mobile-header + .mobile-drawer) that the app no
+   longer uses — layouts/app.blade.php has used the sidebar-based
+   shell in sidebar.css for a while. That dead code also happened
+   to redefine several class names sidebar.css ALSO defines for
+   the current shell (.app-store-dropdown, .app-nav-user*, .page,
+   .main-content, .sidebar-backdrop, etc.) with different colors —
+   two competing visual languages fighting over the same elements,
+   loaded on every single page. Consolidated: sidebar.css is now
+   the single source of truth for all of that; this file keeps
+   only the handful of rules still genuinely used elsewhere and
+   unrelated to the shell.
+   ========================================================= */
+
+/* ── Locked report card (reports/index.blade.php) ───────── */
+.report-card--locked {
+    position: relative;
+    cursor: default;
+    border: 1px dashed var(--color-border);
+    background: var(--color-surface);
+}
+
+.report-card--locked:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--color-border);
+}
+
+.report-card-lock-badge {
+    position: absolute;
+    top: .85rem;
+    right: .85rem;
+    font-size: .68rem;
+    font-weight: 700;
+    padding: .2rem .55rem;
+    border-radius: 99px;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}

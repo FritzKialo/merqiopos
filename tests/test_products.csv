@@ -1,0 +1,6 @@
+name,selling_price,buying_price,sku,category,stock_qty,reorder_level,unit,description,status
+Maize Flour 2kg,150,95,MF-2KG,Grocery,50,10,pcs,White maize flour,active
+Cooking Oil 1L,220,160,,Grocery,30,5,btl,,active
+Sugar 1kg,130,90,SUG-1KG,Grocery,100,20,pcs,,active
+Bad Row,,,,,,,,,
+Duplicate SKU,200,150,MF-2KG,Grocery,10,2,pcs,,active

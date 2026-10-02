@@ -1,0 +1,496 @@
+/* =========================================================
+   auth.css — Authentication pages styling
+   Fraunces serif + ivory + indigo accent, matching the marketing
+   site's redesign — this is the bridge between the public site and
+   the app, so it gets the same look. Self-contained design system,
+   same as the marketing site: its own tokens below, deliberately
+   not touching the app-wide --color-* tokens in main.css used
+   everywhere post-login.
+   ========================================================= */
+
+:root {
+    --auth-serif: 'Fraunces', serif;
+    --auth-ink: #1c1a17;
+    --auth-ink-soft: #5c574e;
+    --auth-ivory: #f8fafc;
+    --auth-border: #e2e8f0;
+    --auth-accent: #4338ca;
+    --auth-accent-soft: #3730a3;
+    --auth-accent-tint: #eef2ff;
+}
+
+/* ── Wrapper ─────────────────────────────────── */
+/* Dark backdrop — same gradient family as the marketing site's hero,
+   since this page is explicitly "the bridge" between the two (see file
+   header). The actual form card stays white/readable inside it. */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #1c1a17 0%, #211d3a 55%, #4338ca 100%);
+    padding: var(--space-2);
+}
+
+/* ── Card ─────────────────────────────────────── */
+.auth-card {
+    background: #fff;
+    border: 1px solid var(--auth-border);
+    border-radius: 10px;
+    box-shadow: 0 24px 48px -24px rgba(0,0,0,0.4);
+    padding: var(--space-5);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 1;
+    animation: authCardIn 0.3s ease-out;
+}
+
+@keyframes authCardIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card.register-card {
+    max-width: 660px;
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+}
+
+/* Register — Business Information and Your Account side by side on wide
+   screens, with Address/City as its own full-width row below both (so the
+   two columns end at the same height instead of one leaving an empty gap)
+   — but on mobile, where everything stacks into one column, Address/City
+   needs to flow right after the rest of Business Information instead of
+   landing after the unrelated Your Account section. Flexbox `order` lets
+   the DOM keep a sensible source order (business, account, address — see
+   register.blade.php) while each breakpoint repositions things visually
+   without duplicating any markup. */
+.register-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+}
+.register-col {
+    flex: 1 1 45%;
+    min-width: 0;
+}
+/* Desktop order: business col, account col side by side (1, 2), address
+   row full-width below both (3). */
+.register-col:first-child {
+    border-right: 1px solid var(--auth-border);
+    padding-right: 1rem;
+    order: 1;
+}
+.register-col:last-child {
+    order: 2;
+}
+.register-address-row {
+    flex: 1 1 100%;
+    order: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-3);
+}
+/* Mobile: single column, so reorder to the sensible reading order instead
+   — business fields, then address (still part of the business section),
+   then the unrelated account fields. */
+@media (max-width: 820px) {
+    .register-col { flex-basis: 100%; }
+    .register-col:first-child { border-right: none; padding-right: 0; order: 1; }
+    .register-address-row { order: 2; }
+    .register-col:last-child { order: 3; }
+}
+@media (max-width: 640px) {
+    .register-address-row { grid-template-columns: 1fr; }
+}
+
+/* Register has far more fields than any other auth page, so its header
+   area (brand row/title/Google/divider) gets extra squeeze on top of the
+   shared rules above — the two-column form below is the part that
+   actually needs the room. Also: register doesn't use the centered
+   .auth-logo block at all (see register.blade.php) — a stacked, centered
+   icon+wordmark+tagline wasted vertical space while leaving the card's
+   full width unused above an otherwise full-width two-column form. A
+   compact left/right top row (brand one side, sign-in link the other)
+   uses that width instead and drops the sign-in link duplicated at the
+   bottom of the page. */
+.register-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.register-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.register-brand-icon {
+    width: 22px;
+    height: 24px;
+    flex-shrink: 0;
+    background: url("/images/merqio-mark.svg") center / contain no-repeat;
+}
+
+.register-brand-name {
+    font-family: var(--auth-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--auth-ink);
+    letter-spacing: -0.01em;
+}
+
+.register-brand-name span {
+    color: var(--auth-ink-soft);
+    font-weight: 400;
+}
+
+.register-signin-link {
+    font-size: 0.8rem;
+    color: var(--auth-ink-soft);
+    white-space: nowrap;
+}
+
+.register-signin-link a {
+    color: var(--auth-accent);
+    font-weight: 600;
+}
+
+.register-signin-link a:hover {
+    color: var(--auth-accent-soft);
+    text-decoration: underline;
+}
+
+.register-card { padding-top: var(--space-3); padding-bottom: var(--space-2); }
+.register-card .auth-title { margin-bottom: 2px; }
+.register-card .auth-subtitle { margin-bottom: 6px; }
+.register-card .btn-google { min-height: 34px; }
+.register-card .auth-divider { margin: 4px 0; }
+.register-card .form-group { margin-bottom: 4px; }
+.register-card .form-label { margin-bottom: 2px; }
+.register-card .form-divider { margin: 2px 0; padding-bottom: 2px; }
+.register-card .form-control { min-height: 34px; padding: 6px 12px; }
+.register-card .password-toggle { width: 34px; height: 34px; font-size: 0.95rem; }
+.register-card .register-columns { margin-bottom: 4px; }
+
+/* ── Logo ─────────────────────────────────────── */
+.auth-logo {
+    text-align: center;
+    margin-bottom: var(--space-3);
+}
+
+.auth-logo-icon {
+    display: inline-block;
+    width: 32px;
+    height: 36px;
+    background: url("/images/merqio-mark.svg") center / contain no-repeat;
+    margin-bottom: var(--space-1);
+}
+
+.auth-logo h1 {
+    font-family: var(--auth-serif);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    color: var(--auth-ink);
+    letter-spacing: -0.01em;
+}
+
+.auth-logo h1 span {
+    color: var(--auth-ink-soft);
+    font-weight: 400;
+}
+
+.auth-logo p {
+    color: var(--auth-ink-soft);
+    font-size: var(--text-sm);
+    margin-top: 4px;
+}
+
+/* ── Headings ─────────────────────────────────── */
+.auth-title {
+    font-family: var(--auth-serif);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--auth-ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.auth-subtitle {
+    color: var(--auth-ink-soft);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+}
+
+/* ── Form Groups ──────────────────────────────── */
+.form-group {
+    margin-bottom: 6px;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--auth-ink-soft);
+    margin-bottom: 4px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 7px 12px;
+    border: 1.5px solid var(--auth-border);
+    border-radius: 4px;
+    font-size: var(--text-base);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    background: var(--auth-ivory);
+    color: var(--auth-ink);
+    min-height: 38px;
+    font-family: var(--font-main);
+}
+
+.form-control:focus {
+    border-color: var(--auth-accent);
+    box-shadow: 0 0 0 3px var(--auth-accent-tint);
+    background: #fff;
+}
+
+.form-control-wrap {
+    position: relative;
+}
+
+.form-control-wrap .form-control {
+    padding-right: 44px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--auth-ink-soft);
+    cursor: pointer;
+    font-size: 1.05rem;
+    padding: 0;
+}
+
+.password-toggle:hover {
+    color: var(--auth-accent);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--auth-accent);
+    outline-offset: -2px;
+    border-radius: 4px;
+}
+
+.form-control.is-invalid {
+    border-color: #8a3b30;
+    box-shadow: 0 0 0 3px #f7ece9;
+}
+
+.invalid-feedback {
+    color: #8a3b30;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+}
+
+/* ── Form grid (register) ─────────────────────── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+}
+
+/* ── Section divider ──────────────────────────── */
+.form-divider {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--auth-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin: var(--space-2) 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--auth-border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* ── Remember row ─────────────────────────────── */
+.remember-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+    font-size: var(--text-sm);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    color: var(--auth-ink-soft);
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--auth-accent);
+    cursor: pointer;
+}
+
+/* ── Buttons ──────────────────────────────────── */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 8px 28px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: fit-content;
+    margin: 0 auto;
+    font-family: var(--font-main);
+    min-height: 40px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary {
+    background: var(--auth-accent);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--auth-accent-soft);
+}
+
+/* ── Google sign-in ────────────────────────────── */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    width: fit-content;
+    margin: 0 auto;
+    padding: 8px 28px;
+    border: 1.5px solid var(--auth-border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--auth-ink);
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    text-decoration: none;
+    min-height: 40px;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-google:hover {
+    background: var(--auth-ivory);
+    border-color: #c9d0da;
+}
+
+.btn-google svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+    color: var(--auth-ink-soft);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--auth-border);
+}
+
+/* ── Alerts ───────────────────────────────────── */
+.alert {
+    padding: var(--space-3) var(--space-4);
+    border-radius: 4px;
+    border-left: 3px solid;
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+}
+
+.alert-success {
+    background: var(--auth-accent-tint);
+    border-color: var(--auth-accent);
+    color: var(--auth-accent);
+}
+
+.alert-danger {
+    background: #f7ece9;
+    border-color: #8a3b30;
+    color: #8a3b30;
+}
+
+.alert-info {
+    background: var(--auth-accent-tint);
+    border-color: var(--auth-accent);
+    color: var(--auth-accent);
+}
+
+/* ── Footer ───────────────────────────────────── */
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--auth-ink-soft);
+}
+
+.auth-footer a {
+    color: var(--auth-accent);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+    color: var(--auth-accent-soft);
+    text-decoration: underline;
+}
+
+/* ── Mobile ────────────────────────────────────
+   This stylesheet is fully self-contained (deliberately not sharing the
+   app-wide responsive.css, per the header comment above) and had zero
+   media queries at all — .form-grid here is a separate re-declaration of
+   the same class name used app-wide, but without that other file's own
+   768px collapse rule, so every two-column field pair on the register page
+   (business name/industry, email/phone, address/city, password/confirm)
+   stayed force-split on a phone regardless of how narrow the card got. */
+@media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .register-top-row { flex-wrap: wrap; row-gap: 4px; }
+    .register-signin-link { font-size: 0.75rem; }
+}

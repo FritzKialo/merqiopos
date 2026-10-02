@@ -1,0 +1,601 @@
+/* =========================================================
+   shop.css — Public online storefront (per-business, white-labeled)
+   Modern, responsive redesign — replaces the inline <style> blocks
+   previously duplicated across resources/views/shop/*.blade.php.
+   ========================================================= */
+
+:root {
+    --shop-ink: #1c1a17;
+    --shop-ink-soft: #6b6459;
+    --shop-border: #e8e1d6;
+    --shop-surface: #ffffff;
+    --shop-bg: #faf7f1;
+    --shop-accent: #16181c;      /* overridden inline per-business via receipt_color */
+    --shop-accent-ink: #ffffff;  /* text color placed on the accent */
+    --shop-danger: #b3261e;
+    --shop-success: #1e7a4c;
+    --shop-warning: #92660c;
+    --shop-radius: 0;
+    --shop-radius-sm: 0;
+    --shop-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 28px -6px rgba(0,0,0,0.14);
+    --shop-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --shop-font-display: 'Poppins', var(--shop-font);
+}
+
+/* Self-hosted (this stylesheet is deliberately self-contained and does
+   not load main.css, so the Poppins face is redeclared here). */
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/poppins/poppins-latin-400-normal.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/poppins/poppins-latin-500-normal.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/poppins/poppins-latin-600-normal.woff2') format('woff2');
+    font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/poppins/poppins-latin-700-normal.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/poppins/poppins-latin-800-normal.woff2') format('woff2');
+    font-weight: 800; font-style: normal; font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: var(--shop-font);
+    background: var(--shop-bg);
+    color: var(--shop-ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+}
+
+a { color: inherit; }
+
+/* ── Nav ─────────────────────────────────────────────────── */
+.shop-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--shop-surface);
+    border-bottom: 1px solid var(--shop-border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.shop-nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+.shop-nav-brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.shop-nav-logo {
+    font-family: var(--shop-font-display);
+    font-size: 1.08rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.shop-nav-cart {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: var(--shop-bg);
+    border: 1px solid var(--shop-border);
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s;
+}
+.shop-nav-cart:hover { background: var(--shop-border); }
+.shop-nav-cart svg { width: 16px; height: 16px; flex-shrink: 0; }
+.cart-badge {
+    background: var(--shop-accent);
+    color: var(--shop-accent-ink);
+    border-radius: 999px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Page wrap ───────────────────────────────────────────── */
+.shop-wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 56px; }
+
+/* ── Alerts ──────────────────────────────────────────────── */
+.alert {
+    padding: 13px 16px;
+    border-radius: var(--shop-radius-sm);
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+    border: 1px solid transparent;
+}
+.alert-success { background: #eaf6ef; color: #145c37; border-color: #cdead9; }
+.alert-error { background: #fbeceb; color: #8c2019; border-color: #f3d3d0; }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    font-family: var(--shop-font-display);
+    font-size: 0.94rem;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: transform 0.1s, filter 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(0.98); }
+.btn-dark { background: var(--shop-accent); color: var(--shop-accent-ink); }
+.btn-dark:hover { filter: brightness(0.9); }
+.btn-dark:disabled { background: #c7c7c7; cursor: not-allowed; }
+.btn-outline { background: var(--shop-surface); color: var(--shop-ink); border-color: var(--shop-border); }
+.btn-outline:hover { background: var(--shop-bg); }
+.btn-block { width: 100%; }
+
+/* ── Hero ────────────────────────────────────────────────── */
+.shop-hero { padding: 8px 0 28px; margin-bottom: 8px; }
+.shop-hero h1 { font-family: var(--shop-font-display); margin: 0 0 6px; font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.1rem); font-weight: 800; letter-spacing: -0.02em; }
+.shop-hero p { margin: 0; color: var(--shop-ink-soft); font-size: 0.98rem; max-width: 60ch; }
+
+/* ── Category filter chips ───────────────────────────────── */
+.category-chips {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    margin: 18px 0 22px;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.category-chips::-webkit-scrollbar { display: none; }
+.chip {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--shop-border);
+    background: var(--shop-surface);
+    color: var(--shop-ink-soft);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.chip:hover { border-color: var(--shop-ink); color: var(--shop-ink); }
+.chip.active { background: var(--shop-accent); color: var(--shop-accent-ink); border-color: var(--shop-accent); }
+
+/* ── Product grid ────────────────────────────────────────── */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+}
+.product-card {
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-border);
+    border-radius: var(--shop-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover { box-shadow: var(--shop-shadow); transform: translateY(-2px); }
+.product-card-link { text-decoration: none; color: inherit; display: block; }
+
+.product-tile {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--shop-font-display);
+    font-weight: 800;
+    font-size: 2.1rem;
+    color: rgba(255,255,255,0.95);
+    letter-spacing: -0.02em;
+    position: relative;
+    overflow: hidden;
+}
+.product-tile::before {
+    /* Large, low-opacity rotated icon watermark — gives every placeholder
+       tile some real visual texture instead of a flat color + bare letter,
+       without needing an actual product photo (no image field exists
+       anywhere in the app yet). */
+    content: '';
+    position: absolute;
+    right: -14%;
+    bottom: -18%;
+    width: 68%;
+    aspect-ratio: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.3'%3E%3Cpath d='M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z'/%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.22;
+    transform: rotate(-10deg);
+}
+.product-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 120% at 15% 15%, rgba(255,255,255,0.26), transparent 55%);
+}
+.product-tile span { position: relative; z-index: 1; }
+
+/* A real uploaded photo — same slot/aspect-ratio as the placeholder tile
+   above, but as an actual <img> so it needs its own sizing rule (::before/
+   ::after watermark and gradient don't render on a replaced element like
+   img, so no conflict with the placeholder's rules).
+   object-fit was 'cover' — for anything taller/narrower than the square
+   tile (i.e. almost every real bottle/box/sack photo a shop owner takes on
+   their phone) that crops the top and bottom clean off, showing only a
+   cross-section of the middle. 'contain' always shows the whole photo,
+   letterboxed on a neutral fill instead — you can actually tell what the
+   product is. */
+.product-tile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--shop-surface-2, #f3f1ec);
+    display: block;
+}
+
+.product-card-body { padding: 13px 14px 15px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.product-card-name {
+    font-weight: 650;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.3em;
+}
+.product-card-price { font-family: var(--shop-font-display); font-size: 1.08rem; font-weight: 800; margin: 2px 0 0; letter-spacing: -0.01em; }
+
+.stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.stock-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.stock-badge.in { background: #eaf6ef; color: var(--shop-success); }
+.stock-badge.low { background: #fbf3e3; color: var(--shop-warning); }
+.stock-badge.out { background: #fbeceb; color: var(--shop-danger); }
+
+.product-card-body form,
+.product-card-body .btn { margin-top: auto; }
+
+.empty-state { text-align: center; padding: 72px 16px; color: var(--shop-ink-soft); }
+.empty-state svg { width: 40px; height: 40px; opacity: 0.4; margin-bottom: 12px; }
+
+/* ── Pagination (Laravel default links wrapper) ─────────── */
+.shop-wrap nav[role="navigation"] { margin-top: 32px; display: flex; justify-content: center; }
+
+/* ── Product detail page ─────────────────────────────────── */
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--shop-ink-soft); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-bottom: 20px; }
+.back-link:hover { color: var(--shop-ink); }
+.product-detail { display: grid; grid-template-columns: minmax(0,420px) 1fr; gap: 40px; align-items: start; }
+@media (max-width: 760px) { .product-detail { grid-template-columns: 1fr; gap: 24px; } }
+
+.product-img-box {
+    border-radius: var(--shop-radius);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--shop-font-display);
+    font-weight: 800;
+    font-size: 4.5rem;
+    color: rgba(255,255,255,0.95);
+    position: relative;
+    overflow: hidden;
+}
+.product-img-box::before {
+    content: '';
+    position: absolute;
+    right: -10%;
+    bottom: -14%;
+    width: 62%;
+    aspect-ratio: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.3'%3E%3Cpath d='M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z'/%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.2;
+    transform: rotate(-10deg);
+}
+.product-img-box::after { content:''; position:absolute; inset:0; background: radial-gradient(120% 120% at 15% 15%, rgba(255,255,255,0.24), transparent 55%); }
+.product-img-box span { position: relative; z-index: 1; }
+
+/* Real uploaded photo — ::before/::after watermark above don't render on
+   a replaced element, so a bare img with this class needs its own fit.
+   object-fit: contain (was cover) — same reasoning as .product-tile-photo
+   above: a customer looking at ONE product's own detail page should see
+   the whole photo they're deciding to buy, not a center-cropped slice
+   with the cap/base/label cut off. */
+.product-img-box-photo { padding: 0; background: var(--shop-surface-2, #f3f1ec); }
+.product-img-box-photo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.product-gallery-thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.gallery-thumb {
+    width: 56px; height: 56px; object-fit: contain; background: var(--shop-surface-2, #f3f1ec);
+    border-radius: var(--shop-radius-sm);
+    cursor: pointer; border: 2px solid transparent; opacity: 0.75;
+}
+.gallery-thumb:hover { opacity: 1; }
+.gallery-thumb.active { border-color: var(--shop-accent, #234d3a); opacity: 1; }
+
+.product-title { font-family: var(--shop-font-display); font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem); font-weight: 800; margin: 0 0 8px; letter-spacing: -0.02em; }
+
+/* Cart's heading was a bare <h1> with only an inline margin/letter-spacing
+   override — no font-family, so it silently fell back to body's regular
+   font (var(--shop-font)) instead of the Poppins display font every other
+   page's main heading uses (.shop-hero h1, .product-title, .confirm-title,
+   .section-title all set font-family explicitly). Matches product-title's
+   scale rather than the home hero's larger one, since this is a secondary
+   page heading like Product/Confirmation, not the storefront's big intro. */
+.cart-title { font-family: var(--shop-font-display); font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem); font-weight: 800; margin: 0 0 24px; letter-spacing: -0.02em; }
+.product-price { font-size: 1.5rem; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.01em; }
+.product-desc { color: var(--shop-ink-soft); margin: 0 0 22px; }
+
+.form-field { margin-bottom: 16px; }
+.form-field label { display: block; font-weight: 700; font-size: 0.82rem; margin-bottom: 7px; }
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--shop-border);
+    border-radius: var(--shop-radius-sm);
+    font-family: var(--shop-font);
+    font-size: 0.95rem;
+    background: var(--shop-surface);
+    color: var(--shop-ink);
+    outline: none;
+    transition: border-color 0.15s;
+}
+.form-control:focus { border-color: var(--shop-accent); }
+select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235b6067' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+.qty-row { display: flex; gap: 12px; align-items: center; margin-bottom: 18px; }
+.qty-row label { font-weight: 700; font-size: 0.82rem; }
+.qty-input { width: 84px; text-align: center; }
+
+.waitlist-box { background: var(--shop-surface); border: 1px solid var(--shop-border); border-radius: var(--shop-radius); padding: 22px; margin-top: 28px; }
+.waitlist-box h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.waitlist-box p { color: var(--shop-ink-soft); margin: 0 0 16px; font-size: 0.92rem; }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .form-grid-2 { grid-template-columns: 1fr; } }
+
+/* ── Cart table ──────────────────────────────────────────── */
+.cart-table-wrap { background: var(--shop-surface); border: 1px solid var(--shop-border); border-radius: var(--shop-radius); overflow: hidden; margin-bottom: 28px; }
+.cart-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.cart-table th {
+    text-align: left;
+    padding: 13px 16px;
+    background: var(--shop-bg);
+    border-bottom: 1px solid var(--shop-border);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--shop-ink-soft);
+    font-weight: 700;
+}
+.cart-table td { padding: 14px 16px; border-bottom: 1px solid var(--shop-border); vertical-align: middle; }
+.cart-table tbody tr:last-child td { border-bottom: none; }
+.cart-total-row td { padding: 13px 16px; font-weight: 700; border-top: 1.5px solid var(--shop-ink); border-bottom: none !important; }
+.cart-total-row.grand td { font-size: 1.1rem; }
+
+/* ── Cart line actions (qty + remove) ────────────────────── */
+.qty-form { display: inline-flex; align-items: center; gap: 6px; }
+.qty-form input {
+    width: 52px;
+    padding: 6px 4px;
+    text-align: center;
+    border: 1.5px solid var(--shop-border);
+    border-radius: var(--shop-radius-sm);
+    font-family: var(--shop-font);
+    font-size: 0.88rem;
+}
+.qty-form input:focus { outline: none; border-color: var(--shop-accent); }
+.qty-update-btn {
+    border: none;
+    background: none;
+    color: var(--shop-ink-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 2px;
+    text-decoration: underline;
+}
+.qty-update-btn:hover { color: var(--shop-ink); }
+.cart-remove-btn {
+    border: none;
+    background: none;
+    color: var(--shop-ink-soft);
+    cursor: pointer;
+    padding: 6px;
+    display: inline-flex;
+    border-radius: 999px;
+    transition: background 0.15s, color 0.15s;
+}
+.cart-remove-btn:hover { background: #fbeceb; color: var(--shop-danger); }
+.cart-remove-btn svg { width: 16px; height: 16px; }
+
+.section-title { font-family: var(--shop-font-display); font-size: 1.15rem; font-weight: 800; margin: 36px 0 16px; letter-spacing: -0.01em; }
+.checkout-form { max-width: 520px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-weight: 700; font-size: 0.82rem; margin-bottom: 7px; }
+.radio-row { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 0.92rem; margin-bottom: 9px; cursor: pointer; }
+.radio-row input { width: auto; accent-color: var(--shop-accent); }
+.checkbox-row { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 0.92rem; cursor: pointer; }
+.checkbox-row input { width: auto; accent-color: var(--shop-accent); }
+
+/* ── Confirmation page ───────────────────────────────────── */
+.confirm-wrap { max-width: 540px; margin: 24px auto 0; text-align: center; }
+.confirm-icon { margin-bottom: 18px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; }
+.confirm-icon svg { width: 30px; height: 30px; }
+.confirm-icon.success { background: #eaf6ef; color: var(--shop-success); }
+.confirm-icon.pending { background: #fbf3e3; color: #92660c; }
+.confirm-icon.error { background: #fbeceb; color: var(--shop-danger); }
+.confirm-title { font-family: var(--shop-font-display); margin: 0 0 10px; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+.confirm-text { color: var(--shop-ink-soft); margin: 0 0 28px; }
+.confirm-ref { font-size: 0.85rem; color: var(--shop-ink-soft); margin-bottom: 28px; }
+
+.order-summary { background: var(--shop-surface); border: 1px solid var(--shop-border); border-radius: var(--shop-radius); padding: 22px; text-align: left; margin-bottom: 28px; }
+.order-summary-title { display: block; margin-bottom: 12px; font-weight: 800; }
+.order-summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--shop-border); font-size: 0.9rem; }
+.order-summary-row:last-of-type { border-bottom: none; }
+.order-summary-row.total { padding-top: 12px; margin-top: 4px; border-top: 1.5px solid var(--shop-ink); border-bottom: none; font-weight: 800; }
+
+/* ── Footer ──────────────────────────────────────────────── */
+.shop-footer { text-align: center; padding: 36px 16px; color: var(--shop-ink-soft); font-size: 0.84rem; border-top: 1px solid var(--shop-border); margin-top: 40px; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+/* Tablet: the grid's own auto-fill already flexes nicely down to ~900px,
+   but a real tablet (768px, the classic iPad portrait width) has room for
+   3 comfortable columns rather than falling into the phone's 2-column tier. */
+@media (max-width: 900px) and (min-width: 601px) {
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .shop-wrap { padding: 20px 14px 44px; }
+    .product-card-name { font-size: 0.85rem; }
+    .product-card-price { font-size: 0.98rem; }
+    .product-card-body { padding: 10px 11px 12px; }
+    .product-tile { font-size: 1.6rem; }
+
+    .shop-nav { padding: 12px 14px; }
+    .shop-nav-cart span.cart-label { display: none; }
+
+    /* Cart table → card-stack. A horizontal-scrolling table cuts the Total
+       column off-screen by default at this width — exactly the numbers a
+       shopper most needs to see before checking out. Same card-stack
+       pattern the rest of the app (public/css/responsive.css) already uses
+       for every other table. Applies from 768px down (not just phones) so
+       a small-tablet/landscape-phone width doesn't fall into the gap
+       between "has room for the full table" and "gets the phone layout". */
+    .cart-table-wrap { overflow: visible; }
+    .cart-table, .cart-table thead, .cart-table tbody, .cart-table tfoot,
+    .cart-table th, .cart-table td, .cart-table tr { display: block; }
+    .cart-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* Line items: each field gets a small uppercase label prefix. */
+    .cart-table tbody tr { padding: 12px 16px; border-bottom: 1px solid var(--shop-border); }
+    .cart-table tbody tr:last-child { border-bottom: none; }
+    .cart-table tbody td { padding: 3px 0; position: relative; padding-left: 42%; text-align: right; min-height: 22px; }
+    .cart-table tbody td::before {
+        position: absolute; left: 0; width: 40%; text-align: left;
+        font-weight: 700; font-size: 0.72rem; color: var(--shop-ink-soft);
+        content: attr(data-label); text-transform: uppercase; letter-spacing: 0.04em;
+    }
+
+    /* Summary rows (Subtotal/Delivery/Total) already have their own label
+       cell — keep each as one label+value line, not a second stacked field. */
+    .cart-table tfoot tr { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; }
+    .cart-table tfoot td { padding: 0; }
+
+    /* Cart's "Update" link and remove button were the same tiny size at
+       every breakpoint — an underlined text link and a ~28×28px icon
+       button, both well under the ~44px touch-target minimum, sitting in
+       the cart's most-tapped row right where the card-stack above already
+       gives them more room to work with. */
+    .qty-update-btn { padding: 10px 8px; font-size: 0.85rem; }
+    .cart-remove-btn { padding: 12px; }
+    .cart-remove-btn svg { width: 18px; height: 18px; }
+
+    /* Delivery checkbox and M-Pesa/Cash payment radios had no padding at
+       all — the clickable area was just the text's own line-box (~20px
+       tall), on the two fields a shopper must tap right before checkout. */
+    .radio-row, .checkbox-row { padding: 10px 0; }
+}
+
+@media (max-width: 600px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+@media (max-width: 480px) {
+    .shop-hero h1 { font-size: 1.4rem; }
+}
+
+/* ── Product Reviews ──────────────────────────────────────────
+   Star display (read-only, filled by rating) + a pure-CSS star
+   picker for the write-a-review form — no JS needed for either. */
+.stars-display { color: #d9a441; letter-spacing: 1px; font-size: 1rem; }
+.stars-display .star-empty { color: var(--shop-border); }
+
+.review-summary {
+    display: flex; align-items: center; gap: 10px; margin: 4px 0 20px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--shop-border);
+}
+.review-summary .avg-rating { font-size: 1.4rem; font-weight: 700; color: var(--shop-ink); }
+.review-summary .review-count { color: var(--shop-ink-soft); font-size: 0.85rem; }
+
+.review-list { margin-top: 8px; }
+.review-item { padding: 16px 0; border-bottom: 1px solid var(--shop-border); }
+.review-item:last-child { border-bottom: none; }
+.review-item-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.review-author { font-weight: 600; color: var(--shop-ink); font-size: 0.92rem; }
+.review-date { color: var(--shop-ink-soft); font-size: 0.78rem; }
+.review-body { color: var(--shop-ink); font-size: 0.9rem; line-height: 1.6; margin-top: 4px; }
+.no-reviews { color: var(--shop-ink-soft); font-size: 0.9rem; padding: 12px 0; }
+
+/* Star picker: 5 radios rendered highest-value first in the DOM, then
+   flipped visually with row-reverse — a star and everything to its left
+   (i.e. every later, lower-value radio in DOM order, which row-reverse
+   places visually to the left) lights up via the general sibling
+   combinator, all without a single line of JS. */
+.star-picker {
+    display: flex; flex-direction: row-reverse; justify-content: flex-end;
+    gap: 2px; margin: 4px 0 16px;
+}
+.star-picker input { position: absolute; opacity: 0; width: 0; height: 0; }
+.star-picker label {
+    font-size: 1.6rem; line-height: 1; color: var(--shop-border);
+    cursor: pointer; transition: color .12s ease;
+}
+.star-picker input:checked ~ label,
+.star-picker label:hover,
+.star-picker label:hover ~ label {
+    color: #d9a441;
+}
+
+.review-form-box {
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--shop-border);
+}
+.review-form-box h3 { font-size: 1.05rem; margin-bottom: 4px; }
+.review-form-box p.hint { color: var(--shop-ink-soft); font-size: 0.85rem; margin-bottom: 14px; }

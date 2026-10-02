@@ -1,0 +1,1775 @@
+﻿/* =========================================================
+   components.css — Reusable UI components
+   Creative second pass: tighter scale, pill filters, polish
+   ========================================================= */
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.55rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    text-decoration: none;
+    min-height: 38px;
+    letter-spacing: -0.01em;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.15s;
+}
+
+.btn:hover::after { background: rgba(255,255,255,0.06); }
+
+.btn i {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.btn:active { transform: scale(0.96); }
+
+/* Primary — flat, no gradient/colored glow (compact, low-decoration design) */
+.btn--primary, .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn--primary:hover, .btn-primary:hover {
+    /* Was var(--color-text) (pure black) — with a colored primary now, a
+       hover that jumps to black instead of darkening the same hue reads as
+       a bug, not a hover state. */
+    background: var(--color-primary-dark);
+}
+
+/* Outline */
+.btn--outline, .btn-outline {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+.btn--outline:hover, .btn-outline:hover {
+    background: var(--color-surface-2);
+    border-color: var(--color-border-2);
+    color: var(--color-text);
+}
+
+/* Ghost — subtle, no border */
+.btn--ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-text-muted);
+}
+
+.btn--ghost:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+}
+
+/* Danger */
+.btn--danger, .btn-danger {
+    background: var(--color-danger);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn--danger:hover, .btn-danger:hover {
+    filter: brightness(0.92);
+}
+
+/* Success */
+.btn--success, .btn-success {
+    background: var(--color-success);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn--success:hover, .btn-success:hover {
+    filter: brightness(0.92);
+}
+
+/* Warning — used in 5 views (suppliers/payments, invoices/show,
+   delivery-notes/show, recurring/show, appointments/show) but never
+   actually defined anywhere; those buttons have been rendering with no
+   background/border at all (just the plain .btn box shape). */
+.btn--warning, .btn-warning {
+    background: var(--color-warning);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn--warning:hover, .btn-warning:hover {
+    filter: brightness(0.92);
+}
+
+/* Sizes */
+.btn--sm, .btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: var(--text-xs);
+    min-height: 30px;
+    gap: 5px;
+}
+
+.btn--sm i, .btn-sm i { font-size: 0.95rem; }
+
+.btn--lg {
+    padding: 0.7rem 1.6rem;
+    font-size: var(--text-md);
+    min-height: 44px;
+}
+
+.btn--full { width: 100%; }
+
+/* Icon-only button */
+.btn--icon {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+}
+
+.btn--icon.btn--sm { width: 30px; height: 30px; }
+
+/* ── Icon badge (circular gradient ring) ─────────────────────
+   For numbered step-process sections, stat highlights, etc. —
+   a filled gradient circle in a thin darker ring, with an
+   icon/number centered inside. Uses the app's own primary color,
+   not a fixed brand pair, so it stays correct if --color-primary
+   is ever retuned. */
+.icon-badge-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border: 3px solid var(--color-primary-dark);
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.icon-badge-circle--sm {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    border-width: 2px;
+}
+
+.icon-badge-circle--lg {
+    width: 84px;
+    height: 84px;
+    font-size: 2rem;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+/* Plain section wrapper — replaces .card for table containers */
+.table-section {
+    margin-bottom: var(--space-6);
+}
+
+/* ── Section pattern (replaces .card for content blocks) ─── */
+.dash-section,
+.report-section { margin-bottom: 2.5rem; }
+
+.dash-section-header,
+.report-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1.25rem;
+}
+
+.dash-section-header h2,
+.report-section-header h2 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+/* ── KPI strip — compact bordered stat bar ─────────────────
+   Was a tall borderless row (1.1rem/1.25rem padding, stacked
+   value-over-label, 1.75rem bottom margin) that ate a lot of vertical
+   space above the fold on every list page. Redesigned as a slim
+   single-line bar — value and label sit inline instead of stacked —
+   inside a thin rounded container, matching the compact bordered-box
+   pattern already used for org-dashboard KPIs (org.css
+   .org-kpi-grid/.org-kpi-card) so the two look like one system. */
+.kpi-strip {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 14px);
+    overflow: hidden;
+    background: var(--color-surface);
+    margin-bottom: var(--space-4);
+}
+
+.kpi-item {
+    flex: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 0.6rem 1.1rem;
+    border-right: 1px solid var(--color-border);
+}
+
+.kpi-item:last-child { border-right: none; }
+
+.kpi-value {
+    display: inline;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.kpi-label {
+    display: inline;
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+@media (max-width: 640px) {
+    .kpi-strip   { flex-wrap: wrap; border-radius: var(--radius-md, 10px); }
+    .kpi-item    { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--color-border); }
+    .kpi-item:last-child { border-bottom: none; }
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+}
+
+.card--padded { padding: var(--space-6); }
+
+.card--hover:hover {
+    box-shadow: var(--shadow-floating);
+    transform: translateY(-2px);
+    border-color: rgba(0,0,0,0.12);
+}
+
+.card--glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-color: var(--glass-border);
+}
+
+.card__title {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+    letter-spacing: -0.02em;
+}
+
+.card__subtitle {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.card-header h2 {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+}
+
+.card-body { padding: var(--space-5); }
+
+/* ── Stat Cards ───────────────────────────────────────────── */
+/* Flat stat block, not a card — no background/border-box/shadow, just a
+   hairline underneath that turns brand-colored on hover. Matches the
+   dashboard's .kpi-card treatment app-wide. */
+/* No line at all — was a hairline underline that turned brand-colored on
+   hover, flagged for removal along with every other "line". */
+.stat-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 4px 2px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    overflow: visible;
+}
+
+.stat-card__label {
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+}
+
+.stat-card__value {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.stat-card__delta {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.stat-card__delta--up   { color: var(--color-success); }
+.stat-card__delta--down { color: var(--color-danger); }
+
+.stat-card__icon {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+/* ── Badges ───────────────────────────────────────────────── */
+/* Plain colored text, no pill background — matches the Excel-style
+   plain-text status treatment used across tables app-wide now. */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+}
+
+/* BEM-style */
+.badge--success { color: #039474; }
+.badge--warning { color: #b28800; }
+.badge--danger  { color: #c72a55; }
+.badge--primary { color: var(--color-primary); }
+.badge--neutral { color: var(--color-text-muted); }
+.badge--info    { color: #1e86ad; }
+
+/* Legacy aliases — values below match what has actually been
+   rendering everywhere: org.css (loaded globally, after this file, on
+   every page) silently redefined badge-success/-warning/-danger with
+   these exact values, so they've always won the cascade regardless of
+   what was written here. dashboard.css and settings.css redefined the
+   same classes again with near-identical values on their own pages.
+   Consolidated to one real source of truth instead of 4 competing
+   ones; this preserves the actual current appearance, doesn't change
+   it — the fix is removing the redundant/conflicting copies, not
+   picking new colors. */
+/* Self-contained (padding/radius/font-size included, not just
+   color) — 3 views (dashboard/index, dashboard/staff, org/dashboard)
+   use these classes alone without the .badge base class, matching how
+   org.css's/dashboard.css's now-removed copies always worked. */
+/* Plain colored text, no pill background — same Excel-style status
+   treatment as .badge above. */
+.badge-success,
+.badge-warning,
+.badge-danger,
+.badge-secondary,
+.badge-neutral,
+.badge-blue,
+.badge-purple {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
+}
+.badge-success { color: #15803d; }
+.badge-warning { color: #a16207; }
+.badge-danger  { color: #b91c1c; }
+.badge-secondary,
+.badge-neutral { color: var(--color-text-muted); }
+.badge-blue    { color: #1d4ed8; }
+.badge-purple  { color: #7c3aed; }
+
+/* ── Alerts ───────────────────────────────────────────────── */
+.alert {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    border-left: 3px solid;
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    line-height: 1.5;
+}
+
+.alert i { font-size: 1.1rem; flex-shrink: 0; }
+
+.alert--success, .alert-success { background: #e8faf4; border-color: var(--color-success); color: #039474; }
+.alert--error,   .alert-danger  { background: #fef0f3; border-color: var(--color-danger);  color: #c72a55; }
+.alert--warning, .alert-warning { background: #fff8e0; border-color: var(--color-warning); color: #b28800; }
+.alert--info                    { background: #e8f6fb; border-color: var(--color-info);    color: #1e86ad; }
+
+/* Functional color utilities — for the one-off "this number/word should
+   read as good/bad/neutral" cases scattered across the app as inline
+   styles. Meant to replace those, not to decorate; kept intentionally
+   small and muted. Global on purpose (components.css loads on every
+   page) — these were originally added to dashboard.css, which only
+   loads on the 2 dashboard views, silently leaving them unstyled
+   everywhere else they'd already been used (purchases/show,
+   staff/show, dashboard/staff, petty-cash/index). */
+.text-success { color: var(--color-success) !important; }
+.text-danger  { color: var(--color-danger) !important; }
+.text-warn    { color: var(--color-warning) !important; }
+.text-info    { color: var(--color-info) !important; }
+.text-muted   { color: var(--color-text-muted) !important; }
+
+/* ── Detail row (label left / value right — very common pattern
+   that kept getting hand-rolled as inline flex+color per page) ─── */
+.detail-row { display: flex; justify-content: space-between; align-items: center; }
+.detail-label { color: var(--color-text-muted); font-size: var(--text-sm); }
+
+/* ── Progress bar (receiving/completion indicators) ───────── */
+.progress-bar {
+    background: var(--color-border);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s;
+    background: var(--color-border-2);
+}
+.progress-bar-fill--full    { background: var(--color-success); }
+.progress-bar-fill--partial { background: var(--color-warning); }
+.progress-bar-fill--over    { background: var(--color-danger); }
+
+/* ── Profile Header — Customer/Supplier detail pages ────────
+   customers/show.blade.php and suppliers/show.blade.php both use this
+   exact markup (.profile-header > .profile-avatar + .profile-info +
+   .profile-actions), but neither had any CSS backing it anywhere in the
+   app — the avatar rendered as a bare capital letter floating above the
+   name, no circle, no spacing, no button alignment. Added here (not in
+   customers.css/suppliers.css) since both pages share the identical
+   structure and should stay visually identical. */
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.profile-avatar {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.profile-info { flex: 1; min-width: 0; }
+
+.profile-info h2 {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    margin: 0 0 4px;
+}
+
+.profile-info p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .profile-header { flex-direction: column; align-items: flex-start; }
+    .profile-actions { width: 100%; }
+    .profile-actions .btn { flex: 1; justify-content: center; min-width: 100px; }
+}
+
+/* ── Page Header ──────────────────────────────────────────── */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.page-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+.page-header-actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* ── Toolbar / Filter Bar ─────────────────────────────────── */
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-5);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.toolbar-left  { display: flex; align-items: center; gap: var(--space-2); flex: 1; flex-wrap: wrap; }
+.toolbar-right { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+
+/* Search input in toolbar */
+.toolbar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toolbar-search i {
+    position: absolute;
+    left: 10px;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.toolbar-search input {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    width: 220px;
+    transition: all 0.2s;
+    outline: none;
+    font-family: var(--font-main);
+    min-height: 34px;
+}
+
+.toolbar-search input:focus {
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+    width: 260px;
+}
+
+.toolbar-search input::placeholder { color: var(--color-text-light); }
+
+/* Pill filter buttons */
+.filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    transition: all 0.18s ease;
+    white-space: nowrap;
+    min-height: 30px;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.filter-pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.filter-pill.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 2px 8px -2px rgba(0,0,0,0.4);
+}
+
+.filter-pill i { font-size: 0.85rem; }
+
+.filter-pill .pill-count {
+    background: rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 1px 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1.4;
+    min-width: 18px;
+    text-align: center;
+}
+
+.filter-pill:not(.active) .pill-count {
+    background: var(--color-surface-3);
+    color: var(--color-text-muted);
+}
+
+/* Toolbar select (compact) */
+.toolbar-select {
+    padding: 0.35rem 2rem 0.35rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: all 0.18s;
+    min-height: 30px;
+    font-family: var(--font-main);
+}
+
+.toolbar-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+    background-color: var(--color-surface);
+}
+
+/* Date range chip */
+.date-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    min-height: 30px;
+    line-height: 1;
+    font-family: var(--font-main);
+}
+
+.date-chip i { font-size: 0.9rem; }
+
+.date-chip:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+/* ── Data Table ───────────────────────────────────────────── */
+/* ── Excel-style table grid ───────────────────────────────────
+   Applies to every plain <table> app-wide by default: thin gridlines on
+   every cell (not just a bottom border per row), plain header with no
+   shading — a real spreadsheet look, not an app-styled data grid. The
+   mobile card-stack rules in responsive.css already force
+   `border: none !important` on td at ≤768px, so this only ever shows on
+   desktop table view; the stacked mobile cards are unaffected. */
+table { border-collapse: collapse; }
+table th, table td { border: 1px solid var(--color-border); }
+/* class="table" alone carried no padding anywhere — just this border —
+   so every page using it rendered with text touching the cell lines.
+   Two pages (Audit Log, Activity Log) had each patched this themselves
+   with an identical local override; this is that same value, moved to
+   the one place it actually belongs, scoped to .table specifically so
+   components with their own real padding (.data-table, .items-table,
+   etc.) are untouched — their class selectors already win on
+   specificity regardless of source order. */
+.table th, .table td { padding: 10px 14px; }
+table th {
+    background: transparent;
+    font-weight: 700;
+    text-align: left;
+}
+
+.data-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+.data-table thead th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.data-table tbody tr:hover { background: var(--color-surface-2); }
+
+.data-table td {
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text);
+    vertical-align: middle;
+}
+
+.data-table td.muted { color: var(--color-text-muted); }
+
+/* ── Empty State ──────────────────────────────────────────── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+.empty-state-icon {
+    font-size: 2.5rem;
+    opacity: 0.18;
+    display: block;
+    margin-bottom: var(--space-4);
+}
+
+.empty-state h3 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.02em;
+}
+
+.empty-state p {
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+    max-width: 280px;
+    line-height: 1.6;
+}
+
+/* ── Modal ────────────────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-floating);
+    max-height: 92vh;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    animation: modalIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+    gap: var(--space-3);
+}
+
+.modal-header h3 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    letter-spacing: -0.02em;
+}
+
+.modal-close {
+    background: var(--color-surface-2);
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    line-height: 1;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ── Form Controls ────────────────────────────────────────── */
+.form-group { margin-bottom: var(--space-4); }
+
+.form-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.55rem 0.875rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    outline: none;
+    background: var(--color-surface);
+    color: var(--color-text);
+    min-height: 40px;
+    font-family: var(--font-main);
+    line-height: 1.5;
+}
+
+.form-control::placeholder { color: var(--color-text-light); }
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+    background: var(--color-surface);
+}
+
+.form-control.is-invalid {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 2.25rem;
+}
+
+textarea.form-control { min-height: 90px; resize: vertical; }
+
+.invalid-feedback {
+    color: var(--color-danger);
+    font-size: var(--text-xs);
+    margin-top: 4px;
+    display: block;
+}
+
+.form-hint {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-4);
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ── Action Buttons (table row) ───────────────────────────── */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.action-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background: transparent;
+    color: var(--color-text-muted);
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+}
+
+.action-btn:hover { background: var(--color-surface-2); color: var(--color-text); }
+.action-btn--edit:hover  { background: var(--color-primary-light); color: var(--color-primary); }
+.action-btn--delete:hover { background: rgba(239,68,68,0.08); color: var(--color-danger); }
+.action-btn--view:hover  { background: rgba(14,165,233,0.08); color: #0284c7; }
+
+/* ── Dropdown ─────────────────────────────────────────────── */
+.dropdown { position: relative; display: inline-block; }
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    min-width: 160px;
+    z-index: 200;
+    overflow: hidden;
+    animation: dropIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.55rem var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+}
+
+.dropdown-item:hover { background: var(--color-surface-2); }
+
+.dropdown-item--danger { color: var(--color-danger); }
+.dropdown-item--danger:hover { background: rgba(239,68,68,0.06); }
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 4px 0;
+}
+
+/* ── Summary / Info Row ───────────────────────────────────── */
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    gap: var(--space-4);
+}
+
+.summary-row:last-child { border-bottom: none; }
+
+.summary-row__label { color: var(--color-text-muted); }
+.summary-row__value { font-weight: 600; color: var(--color-text); }
+
+/* ── Pagination ───────────────────────────────────────────── */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.pagination-info { font-size: var(--text-xs); }
+
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pagination-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.pagination-btn:hover { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-primary-light); }
+.pagination-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Tabs ─────────────────────────────────────────────────── */
+.tabs {
+    display: flex;
+    gap: 2px;
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: var(--space-5);
+}
+
+.tab-btn {
+    padding: 0.55rem var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.18s, border-color 0.18s;
+    font-family: var(--font-heading);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+}
+
+.tab-btn:hover { color: var(--color-text); }
+
+.tab-btn.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+/* ── Tooltip ──────────────────────────────────────────────── */
+[data-tooltip] {
+    position: relative;
+    cursor: default;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: #f1f5f9;
+    font-size: var(--text-2xs);
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 999;
+}
+
+[data-tooltip]:hover::after { opacity: 1; }
+
+/* ── Skeleton loader ──────────────────────────────────────── */
+.skeleton {
+    background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-5) 0;
+}
+
+.divider--dashed { border: none; border-top: 1px dashed var(--color-border); background: none; }
+
+/* ── Toast Notifications ──────────────────────────────────── */
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    pointer-events: none;
+    max-width: min(420px, calc(100vw - 3rem));
+}
+
+.toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md, 10px);
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.45;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15);
+    pointer-events: all;
+    transform: translateX(110%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.toast.toast-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast.toast-hiding {
+    transform: translateX(110%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toast-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+}
+
+.toast-message {
+    flex: 1;
+    color: var(--color-text);
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: 0;
+    line-height: 1;
+    font-size: 0.875rem;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+
+.toast-close:hover { opacity: 1; }
+
+.toast-success {
+    background: var(--color-surface-2, #1e2533);
+    border-color: var(--color-success, #22c55e);
+}
+.toast-success .toast-icon { color: var(--color-success, #22c55e); }
+
+.toast-error {
+    background: var(--color-surface-2, #1e2533);
+    border-color: var(--color-danger, #ef4444);
+}
+.toast-error .toast-icon { color: var(--color-danger, #ef4444); }
+
+.toast-warning {
+    background: var(--color-surface-2, #1e2533);
+    border-color: var(--color-warning, #f59e0b);
+}
+.toast-warning .toast-icon { color: var(--color-warning, #f59e0b); }
+
+.toast-info {
+    background: var(--color-surface-2, #1e2533);
+    border-color: var(--color-primary, var(--color-primary));
+}
+.toast-info .toast-icon { color: var(--color-primary, var(--color-primary)); }
+
+@media (max-width: 480px) {
+    .toast-container {
+        bottom: 1rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        max-width: 100%;
+    }
+    .toast {
+        transform: translateY(110%);
+    }
+    .toast.toast-visible { transform: translateY(0); }
+    .toast.toast-hiding  { transform: translateY(110%); }
+}
+
+/* ═══════════════════════════════════════════════
+   CSV IMPORT
+   ═══════════════════════════════════════════════ */
+
+.import-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .import-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* File drop zone */
+.file-drop-zone {
+    position: relative;
+    border: 2px dashed var(--color-border);
+    border-radius: 0.75rem;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--color-bg-secondary);
+}
+.file-drop-zone:hover,
+.file-drop-zone.drag-over {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+}
+.file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+.file-drop-icon {
+    font-size: 2.5rem;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.file-drop-label {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+.file-drop-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+}
+.file-drop-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0;
+}
+.file-selected {
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+}
+.file-clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    padding: 0.25rem;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.file-clear:hover { color: var(--color-danger); }
+
+/* Schema table */
+.import-schema-table {
+    width: 100%;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+}
+.import-schema-table th,
+.import-schema-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border: 1px solid var(--color-border);
+}
+.import-schema-table th {
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    background: transparent;
+}
+.import-schema-table code {
+    font-size: 0.8rem;
+    background: var(--color-bg-secondary);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+}
+
+.import-info {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 1rem;
+}
+
+/* Import results banner */
+.import-results-banner {
+    background: color-mix(in srgb, var(--color-success) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.import-results-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.import-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.import-stat--success { color: var(--color-success); }
+.import-stat--warn    { color: var(--color-warning, #d97706); }
+.import-errors-toggle {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+.import-errors-toggle summary {
+    cursor: pointer;
+    color: var(--color-primary);
+    font-weight: 500;
+}
+.import-errors-list {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+    list-style: disc;
+    color: var(--color-danger);
+    font-size: 0.82rem;
+    line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════════
+   BULK ACTION BAR
+   ═══════════════════════════════════════════════ */
+
+.bulk-bar {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+}
+.bulk-bar--visible {
+    display: flex;
+    animation: slideDown 0.15s ease;
+}
+.bulk-bar-count {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+}
+.bulk-bar-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ── Form Card — flat section, not a card ────────────────────
+   No background/border/radius/shadow box any more — .form-section-title
+   right below already gives each one a hairline header divider, so the
+   outer box was pure redundant "card" chrome around that. */
+.form-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: var(--space-6) 0;
+    box-shadow: none;
+}
+
+.form-section-title {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Form Grid with responsive collapse ──────────────────── */
+.form-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+/* ── Settings Card ───────────────────────────────────────── */
+.settings-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+}
+
+.settings-card-header {
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-2);
+}
+
+.settings-card-header h2 {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-1);
+}
+
+.settings-card-header p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.settings-card-body {
+    padding: var(--space-6);
+}
+
+/* ── Responsive Form Grids ───────────────────────────────── */
+@media (max-width: 600px) {
+    .form-card { padding: var(--space-4); }
+    .form-grid-2,
+    .form-grid-3,
+    .form-grid-4 { grid-template-columns: minmax(0, 1fr); }
+    .settings-card-body { padding: var(--space-4); }
+    .settings-card-header { padding: var(--space-4); }
+}
+
+/* ── Sale / Purchase / Quote two-column layout ───────────── */
+.sale-layout {
+    display: grid;
+    /* minmax(0, 1fr) — same fix as settings.css's .settings-layout/.plans-grid:
+       a bare 1fr track can't shrink below its content's natural minimum
+       width, which breaks the moment that column holds a wide item table
+       (sale/purchase/quote line items) on a narrower desktop window. */
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-5);
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .sale-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Summary panel (right column) ───────────────────────── */
+.summary-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-xs);
+    position: sticky;
+    top: var(--space-4);
+}
+
+.summary-panel h3 {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.summary-row:last-of-type { border-bottom: none; }
+
+.summary-row.total {
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--color-text);
+    padding-top: var(--space-3);
+}
+
+.summary-row.paid  { color: var(--color-success); font-weight: 600; }
+.summary-row.balance { color: var(--color-danger); font-weight: 700; font-size: var(--text-base); }
+
+/* ── Line-items table (inside form-card) ─────────────────── */
+.items-table-wrapper { overflow-x: auto; margin-bottom: var(--space-4); }
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items-table th {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 8px 10px;
+    text-align: left;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.items-table td {
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+/* ── Add item button ─────────────────────────────────────── */
+.add-item-btn {
+    background: none;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    color: var(--color-primary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.18s;
+}
+
+.add-item-btn:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+}
+
+/* ── Remove row button ───────────────────────────────────── */
+.remove-row-btn {
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+}
+
+.remove-row-btn:hover { background: #fef0f3; }
+
+/* ── Demo mode banner ────────────────────────────────────────
+   Rendered inside <main>, above @yield('content') — outside the .page
+   wrapper's own padding (see partials/demo-banner.blade.php), so it needs
+   its own gutters. That matters most on kiosk-mode pages (POS till, home
+   launcher), which hide the topbar entirely and previously left this
+   pinned flush against the viewport's top edge. */
+.demo-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    width: calc(100% - var(--space-8));
+    max-width: 1300px;
+    margin: var(--space-4) auto;
+    padding: var(--space-3) var(--space-5);
+    background: linear-gradient(to right, var(--color-warning-light), var(--color-surface));
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+body.kiosk-mode .demo-banner { margin-top: var(--space-6); }
+
+.demo-banner__badge {
+    flex-shrink: 0;
+    background: var(--color-warning);
+    color: #fff;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+}
+
+.demo-banner__text {
+    flex: 1;
+    min-width: 220px;
+    margin: 0;
+    font-size: var(--text-sm);
+    color: #78350f;
+}
+
+.demo-banner__form { margin: 0; flex-shrink: 0; }
+
+@media (max-width: 600px) {
+    .demo-banner { width: calc(100% - var(--space-4)); padding: var(--space-3) var(--space-4); }
+    .demo-banner__form { width: 100%; }
+    .demo-banner__form .btn { width: 100%; }
+}

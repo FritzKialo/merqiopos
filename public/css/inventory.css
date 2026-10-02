@@ -1,0 +1,359 @@
+﻿/* =========================================================
+   inventory.css — Inventory page styles
+   ========================================================= */
+
+/* ── Stats grid ───────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover .stat-icon { transform: scale(1.08); }
+
+.stat-icon--blue   { background: #eff6ff; color: #3b82f6; }
+.stat-icon--green  { background: #e8faf4; color: #0acf97; }
+.stat-icon--orange { background: #fff8e0; color: #ffbc00; }
+.stat-icon--red    { background: #fff0f3; color: #fa5c7c; }
+.stat-icon--indigo { background: var(--color-primary-light); color: var(--color-primary); }
+.stat-icon--purple { background: #f5f3ff; color: #7c3aed; }
+.stat-icon--amber  { background: #fff8e0; color: #ffbc00; }
+.stat-icon--rose   { background: #fff1f2; color: #e11d48; }
+.stat-icon--teal   { background: #f0fdfa; color: #0d9488; }
+
+.stat-info { display: flex; flex-direction: column; gap: 2px; }
+
+.stat-value {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: var(--text-2xs);
+    color: var(--color-text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* ── Page Header ─────────────────────────────────────────── */
+/* Tightened — was --space-5/text-3xl/weight 800, pushing the KPI strip
+   and toolbar further down than needed on a data-dense list page. */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.page-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+}
+
+.page-subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+/* Flat toolbar, not a card — no background box/border/shadow, just a
+   hairline underneath. */
+.toolbar {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: var(--space-2) 0;
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    box-shadow: none;
+}
+
+.toolbar-left  { display: flex; align-items: center; gap: var(--space-2); flex: 1; flex-wrap: wrap; }
+.toolbar-right { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+
+.toolbar-search { position: relative; display: flex; align-items: center; }
+
+.toolbar-search i {
+    position: absolute;
+    left: 10px;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.toolbar-search input {
+    padding: 0.42rem 0.75rem 0.42rem 2.1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    width: 210px;
+    transition: all 0.22s ease;
+    outline: none;
+    font-family: var(--font-main);
+    min-height: 34px;
+}
+
+.toolbar-search input::placeholder { color: var(--color-text-light); }
+
+.toolbar-search input:focus {
+    width: 250px;
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(114, 124, 245, 0.1);
+}
+
+/* Legacy search-icon class (span-based) */
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.toolbar-select {
+    padding: 0.38rem 1.9rem 0.38rem 0.75rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    transition: all 0.18s;
+    min-height: 34px;
+    font-family: var(--font-main);
+}
+
+.toolbar-select:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 3px rgba(114, 124, 245, 0.1);
+}
+
+/* ── Card / Table ────────────────────────────────────────── */
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+table { width: 100%; border-collapse: collapse; }
+
+th {
+    background: var(--color-surface-2);
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--color-surface-2); }
+
+/* Product name + SKU */
+.product-name {
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+}
+
+.product-sku {
+    font-size: var(--text-2xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    display: block;
+    margin-top: 1px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Stock row tints */
+tr.low-stock td    { background: rgba(245, 158, 11, 0.03); }
+tr.out-of-stock td { background: rgba(239, 68, 68, 0.03); }
+tr.low-stock:hover td    { background: rgba(245, 158, 11, 0.06); }
+tr.out-of-stock:hover td { background: rgba(239, 68, 68, 0.06); }
+
+/* ── Action buttons ──────────────────────────────────────── */
+.action-buttons { display: flex; gap: 4px; align-items: center; }
+
+/* ── Form grids ──────────────────────────────────────────── */
+.form-grid-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); }
+.form-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+    .toolbar { flex-direction: column; align-items: stretch; gap: var(--space-2); }
+    .toolbar-search { width: 100%; }
+    .toolbar-search input { width: 100% !important; }
+    .toolbar-select { width: 100%; }
+    .form-grid-2, .form-grid-3 { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .stat-value { font-size: var(--text-xl); }
+}
+
+/* ── Product image preview (create/edit forms) ──────────────────────────
+   The existing photo was a bare <img style="max-height:80px;max-width:120px">
+   with no object-fit and no defined box — a wide/tall photo (i.e. almost
+   any real product photo) just scaled down to a thin, squished sliver
+   floating unaligned above the file input, nothing like the clean square
+   box the online shop gives customers (.product-tile-photo /
+   .product-img-box-photo in shop.css). This gives the admin the same
+   fixed-square box.
+   object-fit: contain (not cover) — an owner checking their own product
+   photo before it goes live needs to see the WHOLE photo (cap, base,
+   everything), same reasoning as the shop.css fix: cover crops a
+   non-square photo down to whatever's in the center strip, which for a
+   bottle/box/sack means the actual product gets cropped clean off. */
+.product-image-preview {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    background: var(--color-surface-2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+.gallery-thumb-wrap img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    object-position: center;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--color-border);
+    display: block;
+}
+
+/* ── Product detail page (inventory/show.blade.php) ─────────────────────
+   The view already used .detail-grid/.detail-section/.detail-row/
+   .detail-key/.detail-value classes, but none of them were ever actually
+   defined anywhere in the app's CSS — only the bare-bones .detail-row
+   (components.css) existed. With no card, no grid, no box on the value
+   side, every row just rendered as plain stacked text with the value
+   pushed past the visible width on smaller screens (that's the clipped
+   "KSh 56.0…" / "230 piec…" — not a truncation bug, there was simply
+   nothing constraining the row's width at all). */
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+.detail-section {
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-4) var(--space-5);
+    min-width: 0;
+}
+.detail-section h3 {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+}
+.detail-row {
+    /* .detail-row itself already exists in components.css (flex,
+       space-between) — extended here rather than redefined, since that
+       base rule is also used elsewhere. */
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-key {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    flex-shrink: 0;
+}
+.detail-value {
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+    /* A flex child defaults to min-width:auto, which — same as the
+       bare-1fr grid-track bug fixed app-wide earlier — refuses to shrink
+       below its content's natural width. A long formatted value
+       ("KSh 12,880.00") could then force the row (and the whole card)
+       wider than its column instead of wrapping. */
+    min-width: 0;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .detail-grid { grid-template-columns: minmax(0, 1fr); }
+}

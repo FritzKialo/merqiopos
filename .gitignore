@@ -1,0 +1,52 @@
+# Claude / AI tooling
+.claude/
+CLAUDE.md
+
+# Secrets and environment
+.env
+.env.*
+!.env.example
+
+# Dependencies (restored with composer install / npm install)
+vendor/
+node_modules/
+composer.phar
+
+# Build output and caches
+/public/build/
+/public/hot
+/public/storage
+.phpunit.result.cache
+.phpunit.cache/
+.vite/
+
+# Laravel runtime files
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE / OS
+.idea/
+.vscode/
+.fleet/
+.DS_Store
+Thumbs.db
+
+# Local backups and dumps
+*.sql.bak
+*.zip
+routes_dump.json
+/_integration/
+/js/
+/examples/
+/db_hardening.sql
+/README_INFRASTRUCTURE.md
+/public/error_log
+/public/check_error.php
+/public/run_migrate_offline.php
+/resources/views/org/Resumde.html
+/public/opcache_clear.php

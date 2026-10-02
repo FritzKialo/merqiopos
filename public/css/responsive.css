@@ -1,0 +1,532 @@
+/* =========================================================
+   responsive.css — Comprehensive responsive breakpoints
+   ========================================================= */
+
+/* ---- Large Desktop (≥ 1441px) ---- */
+@media (min-width: 1441px) {
+    .page {
+        padding: var(--space-8) var(--space-10);
+        width: calc(100% - var(--space-12));
+    }
+    .flash-messages {
+        width: calc(100% - var(--space-12));
+        padding: var(--space-3) 0 0;
+    }
+    .topbar { padding: 0 var(--space-10); }
+}
+
+/* ---- Standard Desktop (≤ 1280px) ---- */
+@media (max-width: 1280px) {
+    .dashboard-grid { grid-template-columns: 1fr 300px; }
+}
+
+/* ---- Tablet landscape (≤ 1024px) ---- */
+@media (max-width: 1024px) {
+    .sidebar { width: 220px; }
+
+    .page {
+        padding: var(--space-5) var(--space-5);
+        width: calc(100% - 2rem);
+        margin: var(--space-4) auto;
+    }
+
+    .flash-messages {
+        width: calc(100% - 2rem);
+        margin: var(--space-3) auto 0;
+        padding: 0;
+    }
+
+    .topbar { padding: 0 var(--space-5); }
+    .topbar-center { max-width: 280px; }
+    .topbar-date { display: none; }
+
+    /* Dashboard */
+    .dashboard-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+    .dashboard-grid-full { grid-template-columns: 1fr; gap: var(--space-5); }
+    .quick-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+    .today-grid  { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+
+    /* Reports */
+    .reports-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .report-layout { grid-template-columns: minmax(0, 1fr); }
+
+    /* Settings */
+    .settings-layout { grid-template-columns: 180px minmax(0, 1fr); gap: var(--space-4); }
+
+    /* Plans */
+    .plans-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- Tablet portrait (≤ 768px) ---- */
+@media (max-width: 768px) {
+
+    /* ── Sidebar → slide-in drawer ── */
+    .sidebar {
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        transform: translateX(-100%);
+        z-index: 200;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+        width: 275px;
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar.active { transform: translateX(0); }
+    .sidebar-backdrop.active { display: block; }
+
+    /* ── Mobile header ── */
+    .mobile-header {
+        display: flex;
+        height: 52px;
+        background: var(--color-sidebar);
+        border-bottom: 1px solid var(--color-border);
+    }
+    .topbar { display: none; }
+    .main-content { min-height: calc(100vh - 52px); }
+
+    /* ── Page — flat on mobile, no card ── */
+    .page {
+        padding: var(--space-4);
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        min-height: calc(100vh - 52px);
+    }
+
+    .flash-messages {
+        width: 100%;
+        margin: 0;
+        padding: var(--space-3) var(--space-4) 0;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+    }
+
+    .page-header-actions,
+    .action-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .page-header-actions .btn,
+    .action-buttons .btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 110px;
+        text-align: center;
+    }
+
+    .page-title    { font-size: 1.3rem !important; }
+    .page-subtitle { font-size: 0.8rem; }
+
+    /* ── KPI strip: 2-column ── */
+    .kpi-strip { flex-wrap: wrap; }
+    .kpi-item {
+        flex: 1 1 50%;
+        border-right: none !important;
+        border-bottom: 1px solid var(--color-border);
+    }
+    .kpi-item:nth-child(odd) {
+        border-right: 1px solid var(--color-border) !important;
+    }
+    /* Last row: remove bottom border */
+    .kpi-item:nth-last-child(-n+2) { border-bottom: none; }
+    /* Lone item on last row spans full width */
+    .kpi-item:last-child:nth-child(odd) {
+        flex: 1 1 100%;
+        border-right: none !important;
+        border-bottom: none;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .toolbar-left  { flex-wrap: wrap; }
+    .toolbar-right { flex-wrap: wrap; }
+    .toolbar-search { width: 100%; }
+    .toolbar-search input { width: 100% !important; }
+    .toolbar-select { width: 100%; }
+
+    .filter-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+    .filter-pills::-webkit-scrollbar { height: 0; }
+
+    /* ── Table → card-stack on all tables ── */
+    .table-wrapper { overflow: visible; }
+    /* Editable line-item tables (purchase orders, stock receives, etc.)
+       use their own purpose-built .items-table-wrapper for the desktop
+       horizontal-scroll fallback — since the global table→card-stack rule
+       below already applies to every bare <table> regardless of class,
+       this wrapper's overflow-x:auto is redundant once stacked and should
+       be dropped the same way .table-wrapper's is. */
+    .items-table-wrapper { overflow: visible; }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr { display: block; }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+        visibility: hidden;
+    }
+
+    /* Flat row, not a floating card — each row is a hairline-divided
+       block instead of its own shadowed/rounded/bordered box, matching
+       the rest of the app's flat treatment.
+       The record-to-record divider (here) and the field-to-field divider
+       (td:not(:last-child) below) used to be the exact same 1px/
+       --color-border line — visually identical, so a multi-field table
+       (Recent Sales' Invoice/Customer/Total/Status/Time, Top Products'
+       #/Product/Qty/Revenue, etc.) read as one undifferentiated stream of
+       label:value lines with no way to tell where one record ends and the
+       next begins, worst on mobile where every table becomes exactly this
+       stacked shape. Now the record boundary is visibly heavier
+       (--color-border-2 + more breathing room) than the boundary between
+       two fields of the *same* record, so each record reads as a group. */
+    tbody tr {
+        margin-bottom: 0;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid var(--color-border-2);
+        border-radius: 0;
+        padding: var(--space-4) 0;
+        box-shadow: none;
+    }
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover { background: var(--color-surface-2); }
+
+    /* !important on the layout-critical properties here — several page
+       CSS files (expenses.css, customers.css, etc.) declare their own
+       plain `td { padding: ... }` rule, loaded AFTER this file via
+       @push('styles'). Same specificity + later in the cascade meant
+       their padding silently won over padding-left:48% here, collapsing
+       this card-stack layout so the data-label overlapped the value
+       instead of sitting beside it. */
+    td {
+        border: none !important;
+        padding: var(--space-2) 0 !important;
+        position: relative !important;
+        padding-left: 48% !important;
+        text-align: right !important;
+        font-size: var(--text-sm);
+        min-height: 28px;
+    }
+
+    /* Faint on purpose — this separates two fields of the SAME record, not
+       two different records (that's tbody tr's heavier border above). A
+       matching weight here was exactly what made every row blur together. */
+    td:not(:last-child) { border-bottom: 1px dashed var(--color-border); }
+
+    /* A colspan cell is a full-width message row (empty state, "No X
+       yet." text, a totals/subtotal footer row) — not a single-column
+       label/value pair, so it shouldn't get the label/value stacking
+       treatment above at all. Without this, the 48% padding-left and
+       forced right-align (needed for genuine label/value rows) instead
+       squeezed every empty-state and footer-total row app-wide (~58
+       files) into a thin right-hand sliver of text, discovered via the
+       Coupons page but not specific to it. Each of these rows already
+       sets its own text-align inline (center for empty states, right
+       for totals); left as the neutral fallback here is a safe default
+       either way, well short of the actual breakage this replaces. */
+    td[colspan] {
+        padding-left: 0 !important;
+        text-align: left !important;
+    }
+    td[colspan]::before { display: none; }
+
+    /* The same problem one level over: a colspan[3] "Total:" label cell
+       paired with a plain <td> holding the actual amount (e.g. Expense
+       Claims' totals row) — the label cell is now fixed above, but its
+       sibling value cell still matched the generic label/value `td` rule,
+       squeezing "KSh 1,500.00" into a ~43px sliver (48% padding-left on a
+       cell that's already narrow with no data-label counterpart to
+       justify that gutter) until it was effectively invisible. Right-
+       align matches how these totals rows are meant to read. */
+    tr:has(td[colspan]) td:not([colspan]) {
+        padding-left: 0 !important;
+        text-align: right !important;
+    }
+
+    td::before {
+        position: absolute;
+        left: 0;
+        width: 44%;
+        padding-right: 8px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 700;
+        font-size: var(--text-2xs);
+        color: var(--color-text-muted);
+        content: attr(data-label);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        line-height: 28px;
+    }
+
+    /* ── Opt-out: label/value ledger tables ──
+       Some tables (e.g. the P&L summary) aren't a data grid with a
+       repeated column meaning per row — each row's first cell IS
+       already its own label (e.g. "Total Revenue", "Less: Cost of
+       Goods Sold"). The generic data-label card-stack above assumes
+       a shared column header across rows, which doesn't apply here.
+       Add class="table-plain" to opt a table out and keep it as a
+       compact real table instead. */
+    .table-plain,
+    .table-plain thead,
+    .table-plain tbody,
+    .table-plain tr,
+    .table-plain th,
+    .table-plain td {
+        display: revert;
+    }
+    .table-plain { width: 100%; }
+    .table-plain td { padding: revert; text-align: revert; min-height: revert; }
+    .table-plain td::before { content: none; }
+
+    /* ── Forms ── */
+    .form-grid,
+    .form-grid-2,
+    .form-grid-3 { grid-template-columns: 1fr; }
+
+    .form-actions { flex-direction: column; }
+    .form-actions .btn { width: 100%; justify-content: center; }
+
+    /* ── Settings ── */
+    .settings-layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+    .settings-nav { position: static !important; }
+
+    /* ── Reports ── */
+    .reports-grid  { grid-template-columns: minmax(0, 1fr); }
+    .report-layout { grid-template-columns: minmax(0, 1fr); }
+
+    /* ── Plans ── */
+    .plans-grid { grid-template-columns: minmax(0, 1fr); }
+
+    /* ── Auth ── */
+    .auth-wrapper {
+        padding: var(--space-4);
+        align-items: flex-start;
+        padding-top: var(--space-8);
+    }
+
+    .auth-card,
+    .auth-card.register-card {
+        max-width: 100%;
+        padding: var(--space-5);
+    }
+
+    /* ── Modal ── */
+    .modal {
+        padding: var(--space-5);
+        max-width: calc(100vw - 2rem);
+        max-height: 88vh;
+        border-radius: var(--radius-lg);
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+        gap: var(--space-2);
+    }
+
+    .modal-footer .btn,
+    .modal-footer button { width: 100%; justify-content: center; }
+
+    /* ── Pagination ── */
+    .pagination { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+
+    /* ── Dashboard two-col ── */
+    .dash-two-col { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Small mobile (≤ 480px) ---- */
+@media (max-width: 480px) {
+    .page { padding: var(--space-3); }
+
+    .page-title { font-size: 1.15rem !important; }
+
+    /* KPI: single column */
+    .kpi-item {
+        flex: 1 1 100% !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--color-border) !important;
+    }
+    .kpi-item:last-child { border-bottom: none !important; }
+    .kpi-value { font-size: 0.95rem; }
+
+    .action-buttons .btn { font-size: 0.8rem; padding: 0.45rem 0.7rem; }
+
+    .today-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .auth-card { padding: var(--space-4); border-radius: var(--radius-md); }
+    .modal { padding: var(--space-4); border-radius: var(--radius-md); }
+
+    .filter-pills { gap: 5px; }
+    .filter-pill  { font-size: 0.65rem; padding: 0.25rem 0.6rem; }
+
+    .page-header-actions { flex-wrap: wrap; gap: var(--space-2); }
+}
+
+/* ---- Toast responsive ---- */
+@media (max-width: 480px) {
+    .toast-container {
+        bottom: 1rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        max-width: 100%;
+    }
+    .toast { transform: translateY(110%); }
+    .toast.toast-visible { transform: translateY(0); }
+    .toast.toast-hiding  { transform: translateY(110%); }
+}
+
+/* ---- Print ---- */
+@media print {
+    .sidebar,
+    .mobile-header,
+    .toolbar,
+    .action-buttons,
+    .action-btn,
+    .pagination,
+    nav { display: none !important; }
+
+    .page {
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .main-content { animation: none; }
+
+    table, thead, tbody, th, td, tr { display: table-row !important; }
+    thead tr { position: static !important; visibility: visible !important; }
+    td { padding-left: var(--space-3) !important; text-align: left !important; }
+    td::before { display: none !important; }
+}
+
+/* ── Mobile Table Card-View ─────────────────────────────────
+   Add class "table-responsive-cards" to the <table>.
+   Each <td> must have a data-label attribute.
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+    .table-responsive-cards,
+    .table-responsive-cards thead,
+    .table-responsive-cards tbody,
+    .table-responsive-cards th,
+    .table-responsive-cards td,
+    .table-responsive-cards tr {
+        display: block;
+    }
+
+    .table-responsive-cards thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* Flat row, not a floating card — see the generic tbody tr rule above
+       for the same reasoning. */
+    .table-responsive-cards tbody tr {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--color-border);
+        border-radius: 0;
+        margin-bottom: 0;
+        padding: 0.65rem 0;
+        box-shadow: none;
+    }
+
+    .table-responsive-cards tbody tr:last-child { border-bottom: none; }
+
+    /* !important here too, matching the generic `td` rule above (both
+       need it — the generic rule is now !important to beat page CSS, so
+       this more-specific selector needs it too or it would lose to that
+       generic rule despite being more specific, since !important always
+       beats non-important regardless of specificity). */
+    .table-responsive-cards td {
+        border: none !important;
+        padding: 0.35rem 0 !important;
+        display: flex !important;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        min-height: 0;
+        text-align: left !important;
+        position: static !important;
+    }
+
+    .table-responsive-cards td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-text-muted);
+        min-width: 90px;
+        flex-shrink: 0;
+        padding-top: 1px;
+        /* This class opts into its own flex label/value layout below —
+           without resetting these, the generic 768px card-stack rule
+           above (position:absolute; width:44%; left:0; ...) still wins
+           for any property this block doesn't set, since that rule's
+           bare `td::before` isn't lower priority, just unset here. That
+           left the label floating on top of the value instead of beside
+           it as a normal flex sibling. */
+        position: static;
+        width: auto;
+        left: auto;
+        text-align: left;
+        line-height: 1.3;
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+    }
+
+    /* Hide empty-label cells (action columns after label) — padding-top
+       needs !important too, since the shorthand `padding` above is now
+       !important and a non-important longhand can't win against that
+       regardless of this selector's higher specificity. */
+    .table-responsive-cards td[data-label=""] {
+        justify-content: flex-end;
+        padding-top: 0.5rem !important;
+        border-top: 1px solid var(--color-border);
+        margin-top: 0.25rem;
+    }
+    .table-responsive-cards td[data-label=""]::before { display: none; }
+
+    /* Hide secondary/less important columns on small screens */
+    /* These columns become visible via data-label but we show top ones first */
+    .table-responsive-cards td[data-label="Method"],
+    .table-responsive-cards td[data-label="SKU"],
+    .table-responsive-cards td[data-label="Category"],
+    .table-responsive-cards td[data-label="Member Since"],
+    .table-responsive-cards td[data-label="Last Login"],
+    .table-responsive-cards td[data-label="Expected"],
+    .table-responsive-cards td[data-label="Items"],
+    .table-responsive-cards td[data-label="Recorded By"],
+    .table-responsive-cards td[data-label="Margin"] {
+        display: none !important;
+    }
+}

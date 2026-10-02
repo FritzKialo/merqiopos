@@ -1,0 +1,732 @@
+/* ============================================================
+   ADMIN PANEL — admin.css
+   Horizontal top-nav layout. Matches app design tokens.
+   ============================================================ */
+
+/* ── Base ─────────────────────────────────────────────────── */
+.admin-body {
+    /* Scoped accent — the app's global --color-primary stays black
+       (buttons everywhere else keep that), this is admin-chrome-only. */
+    --admin-accent:      #6366f1;
+    --admin-accent-dark: #4338ca;
+    --admin-accent-grad: linear-gradient(135deg, #6366f1, #8b5cf6);
+
+    background: #eef1f5;
+    font-family: 'Poppins', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: #0a0a0a;
+    min-height: 100vh;
+}
+
+/* ── Top Nav ──────────────────────────────────────────────── */
+.admin-topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid #c8c8c8;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 0;
+}
+
+.admin-topnav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #0a0a0a;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-right: 32px;
+}
+
+.admin-topnav-brand-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--admin-accent-grad);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+}
+
+.admin-topnav-tabs {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+
+.admin-topnav-tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 7px;
+    color: #555;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: background .12s, color .12s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.admin-topnav-tab i { font-size: 16px; flex-shrink: 0; }
+
+.admin-topnav-tab:hover {
+    background: #f0f0f0;
+    color: #0a0a0a;
+}
+
+.admin-topnav-tab.active {
+    background: var(--admin-accent-grad);
+    color: #fff;
+}
+
+.admin-topnav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.admin-topnav-user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    position: relative;
+    cursor: pointer;
+}
+
+.admin-topnav-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0a0a0a;
+}
+
+.admin-topnav-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--admin-accent-grad);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Dropdown */
+.admin-user-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.10);
+    min-width: 180px;
+    padding: 6px;
+    display: none;
+    z-index: 200;
+}
+
+.admin-user-dropdown.open { display: block; }
+
+.admin-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 12px;
+    border-radius: 7px;
+    color: #0a0a0a;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    transition: background .12s;
+    text-align: left;
+}
+
+.admin-dropdown-item i { font-size: 16px; color: #666; }
+.admin-dropdown-item:hover { background: #f0f0f0; }
+.admin-dropdown-divider { height: 1px; background: #e8e8e8; margin: 4px 0; }
+
+/* ── Mobile Header ────────────────────────────────────────── */
+.admin-mobile-header {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: #fff;
+    border-bottom: 1px solid #c8c8c8;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 200;
+}
+
+.admin-mobile-brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: #0a0a0a;
+    font-family: 'Poppins', -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.admin-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: #f0f0f0;
+    border: 1px solid #d0d0d0;
+    border-radius: 7px;
+    color: #0a0a0a;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.admin-mobile-drawer {
+    display: none;
+    position: fixed;
+    top: 52px; left: 0; right: 0; bottom: 0;
+    background: #fff;
+    z-index: 190;
+    padding: 16px;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+    border-top: 1px solid #e8e8e8;
+}
+
+.admin-mobile-drawer.open { display: flex; }
+
+.admin-mobile-drawer .admin-topnav-tab {
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 9px;
+}
+
+.admin-mobile-drawer-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.admin-main {
+    min-height: calc(100vh - 56px);
+}
+
+/* ── Alerts ──────────────────────────────────────────────── */
+.admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: opacity .3s, transform .3s;
+}
+
+.admin-alert i { font-size: 18px; }
+
+.admin-alert-success {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.admin-alert-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+/* ── Content ─────────────────────────────────────────────── */
+/* Top padding trimmed from 28px — the page header already reads as the
+   page's visual "top", so the old value left a large dead gap under the
+   topnav. Left/right/bottom kept generous. */
+.admin-content {
+    padding: 16px 32px 28px;
+}
+
+/* ── Page header ─────────────────────────────────────────── */
+.admin-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.admin-page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0a0a0a;
+    margin: 0;
+}
+
+.admin-page-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: 3px 0 0;
+}
+
+.admin-page-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* ── Stat Cards ──────────────────────────────────────────── */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+/* Flat stat block, not a card — matches dashboard.css's .kpi-card. */
+/* No line at all — was a hairline underline, flagged for removal along
+   with every other "line" in the flat redesign. */
+.admin-stat-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 4px 2px 14px;
+    position: relative;
+    overflow: visible;
+}
+
+.admin-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+}
+
+.admin-stat-value {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: 5px;
+    letter-spacing: -0.02em;
+}
+
+.admin-stat-sub {
+    font-size: 11.5px;
+    color: var(--color-text-muted);
+}
+
+.admin-stat-icon { display: none; }
+
+/* 5-card variant (subscriptions page) — same card styling, fewer columns */
+.admin-stats-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* Color accents — every admin page's KPI cards reference these class
+   names (admin/subscriptions/index.blade.php and admin/dashboard.blade.php
+   both predate this), but none of them were ever actually defined here,
+   so every KPI card across the whole admin panel has rendered in plain
+   default text color with zero visual differentiation. Swept every
+   admin/*.blade.php for admin-stat-* usages to make sure this covers all
+   of them, not just the ones on the page being fixed at the time. */
+.admin-stat-indigo  .admin-stat-value { color: #4338ca; }
+.admin-stat-emerald .admin-stat-value { color: #065f46; }
+.admin-stat-violet  .admin-stat-value { color: #7c3aed; }
+.admin-stat-amber   .admin-stat-value { color: #a16207; }
+.admin-stat-red     .admin-stat-value { color: #b91c1c; }
+.admin-stat-rose    .admin-stat-value { color: #be123c; }
+
+/* ── Grids ───────────────────────────────────────────────── */
+/* minmax(0, 1fr) — a bare 1fr track can't shrink below its content's
+   natural minimum width, which matters once this grid holds real data
+   tables (the "Recent organizations"/"Recent subscriptions" panels). */
+.admin-grid-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.admin-grid-chart {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* ── Panel / Card ────────────────────────────────────────── */
+.admin-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card, 0);
+    box-shadow: var(--shadow-card, 0 2px 6px rgba(0,0,0,0.06), 0 12px 28px -6px rgba(0,0,0,0.14));
+    overflow: hidden;
+}
+
+.admin-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.admin-panel-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.admin-panel-link {
+    font-size: 12px;
+    color: var(--admin-accent, #0a0a0a);
+    text-decoration: none;
+    font-weight: 600;
+    opacity: .8;
+    transition: opacity .15s;
+}
+
+.admin-panel-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Chart ───────────────────────────────────────────────── */
+.admin-chart-wrap {
+    padding: 20px;
+    height: 220px;
+    position: relative;
+}
+
+/* ── Plan Distribution ───────────────────────────────────── */
+.admin-plan-list { padding: 4px 18px 10px; }
+
+.admin-plan-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-plan-row:last-child { border-bottom: none; }
+
+.admin-plan-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a0a0a;
+}
+
+/* ── Tables ──────────────────────────────────────────────── */
+.admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.admin-table th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #888;
+    border: 1px solid #e8e8e8;
+    background: transparent;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 11px 16px;
+    color: #0a0a0a;
+    border: 1px solid #e8e8e8;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:hover td { background: #f6f6ff; }
+
+/* ── Badges — plain colored text, no pill ──────────────────── */
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.admin-badge-green  { color: #15803d; }
+.admin-badge-amber  { color: #a16207; }
+.admin-badge-red    { color: #b91c1c; }
+.admin-badge-gray   { color: #475569; }
+.admin-badge-indigo { color: #4338ca; }
+
+/* Plan pills */
+.plan-starter    { color: #475569; }
+.plan-business   { color: #4338ca; }
+.plan-growth     { color: #4338ca; }
+.plan-enterprise { color: #a16207; }
+.plan-solo       { color: #475569; }
+.plan-scale      { color: #065f46; }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: opacity .15s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.admin-btn:hover { opacity: .82; }
+
+.admin-btn-primary { background: #0a0a0a; color: #fff; }
+.admin-btn-green  { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.admin-btn-red    { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+.admin-btn-gray   { background: #f0f0f0; color: #444; border: 1px solid #d0d0d0; }
+.admin-btn-sm     { padding: 5px 11px; font-size: 12px; border-radius: 6px; }
+
+/* ── Filter bar ──────────────────────────────────────────── */
+.admin-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-search-input {
+    flex: 1;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    padding: 9px 14px 9px 38px;
+    color: #0a0a0a;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 256 256'%3E%3Cpath fill='%23888' d='M229.66 218.34l-50.07-50.06a88.11 88.11 0 1 0-11.31 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32ZM40 112a72 72 0 1 1 72 72 72.08 72.08 0 0 1-72-72Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    transition: border-color .15s;
+}
+
+.admin-search-input:focus { border-color: #0a0a0a; }
+
+.admin-filter-select {
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: #0a0a0a;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+/* ── Detail grid ─────────────────────────────────────────── */
+.admin-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.admin-detail-row { display: flex; flex-direction: column; gap: 3px; }
+
+.admin-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #888;
+}
+
+.admin-detail-value { font-size: 14px; color: #0a0a0a; font-weight: 500; }
+
+/* ── Inline forms ────────────────────────────────────────── */
+.admin-inline-form { display: flex; align-items: center; gap: 8px; }
+
+.admin-inline-input,
+.admin-inline-select {
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 7px;
+    padding: 6px 10px;
+    color: #0a0a0a;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+}
+
+.admin-inline-input { width: 80px; }
+
+/* ── Full-width labeled form fields (settings-style forms) ── */
+.admin-form-group { margin-bottom: 16px; }
+
+.admin-form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+}
+
+.admin-form-input {
+    width: 100%;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--color-text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .14s ease;
+}
+
+.admin-form-input:focus { border-color: var(--color-primary, #0a0a0a); }
+.admin-form-input.is-invalid { border-color: #b91c1c; }
+
+.admin-form-error { font-size: 12px; color: #b91c1c; margin-top: 5px; }
+
+/* ── Section header ──────────────────────────────────────── */
+.admin-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.admin-section-title { font-size: 16px; font-weight: 600; color: #0a0a0a; margin: 0; }
+
+/* ── Pagination ──────────────────────────────────────────── */
+.admin-pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 18px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.admin-pagination .pagination {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-pagination .page-item .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #444;
+    background: #f0f0f0;
+    border: 1px solid #d8d8d8;
+    text-decoration: none;
+    transition: background .12s, color .12s;
+    font-family: inherit;
+}
+
+.admin-pagination .page-item.active .page-link {
+    background: #0a0a0a;
+    color: #fff;
+    border-color: #0a0a0a;
+}
+
+.admin-pagination .page-item.disabled .page-link { opacity: .4; pointer-events: none; }
+
+.admin-pagination .page-item .page-link:hover {
+    background: #0a0a0a;
+    color: #fff;
+    border-color: #0a0a0a;
+}
+
+/* ── Actions row ─────────────────────────────────────────── */
+.admin-actions-row { display: flex; align-items: center; gap: 8px; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1200px) {
+    .admin-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1024px) {
+    .admin-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .admin-grid-chart { grid-template-columns: minmax(0, 1fr); }
+    .admin-grid-2 { grid-template-columns: minmax(0, 1fr); }
+    .admin-detail-grid { grid-template-columns: minmax(0, 1fr); }
+    .admin-content { padding: 20px; }
+    .admin-topnav { padding: 0 20px; }
+}
+
+@media (max-width: 768px) {
+    .admin-topnav { display: none; }
+    .admin-mobile-header { display: flex; }
+    .admin-main { padding-top: 52px; }
+    .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .admin-grid-2 { grid-template-columns: minmax(0, 1fr); }
+    .admin-grid-chart { grid-template-columns: minmax(0, 1fr); }
+    .admin-detail-grid { grid-template-columns: minmax(0, 1fr); }
+    .admin-content { padding: 16px; }
+    .admin-table { min-width: 560px; }
+    .admin-filter-bar { flex-direction: column; gap: 8px; }
+    .admin-search-input, .admin-filter-select { width: 100%; }
+    .admin-alert { padding: 12px 16px; }
+}
+
+@media (max-width: 480px) {
+    .admin-stats { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+    .admin-stat-card { padding: 14px; }
+    .admin-stat-value { font-size: 18px; }
+    .admin-content { padding: 12px; }
+}
